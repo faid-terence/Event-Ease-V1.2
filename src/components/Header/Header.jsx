@@ -22,7 +22,27 @@ const navLinks = [
   },
 ];
 
+function getUser() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    try {
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const userName = decodedToken.name;
+      const profileImage = decodedToken.photo;
+
+      return { userName, profileImage };
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  } else {
+    console.error("Token not found in local storage");
+    return null;
+  }
+}
+
 export const Header = () => {
+  const [user, setUser] = useState(getUser());
   const headerRef = useRef(null);
   const menuRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
@@ -83,18 +103,26 @@ export const Header = () => {
               </ul>
             </div>
             <div className="flex items-center gap-4">
-              <div className="hidden">
-                <Link to="/">
-                  <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                    <img src={userImage} alt="" />
-                  </figure>
+              {user ? (
+                <div>
+                  <Link to="/">
+                    <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
+                      <img
+                        src={user.profileImage}
+                        alt=""
+                        className="rounded-full"
+                      />
+                    </figure>
+                  </Link>
+                </div>
+              ) : (
+                <Link to="/auth/signin">
+                  <button className="bg-white py-2 px-6 text-black font-[700] h-[44px] flex items-center justify-center rounded-[50px]">
+                    LOGIN
+                  </button>
                 </Link>
-              </div>
-              <Link to="/auth/signin">
-                <button className="bg-white py-2 px-6 text-black font-[700] h-[44px] flex items-center justify-center rounded-[50px]">
-                  LOGIN
-                </button>
-              </Link>
+              )}
+
               <span className="md:hidden" onClick={toggleMenu}>
                 <BiMenu className="w-6 h-6 cursor-pointer" color="white" />
               </span>
