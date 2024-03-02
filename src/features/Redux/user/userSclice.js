@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
@@ -12,7 +13,9 @@ export const loginUser = createAsyncThunk(
     });
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error(
+        "Invalid email or password. Please check your credentials and try again."
+      );
     }
 
     const data = await response.json();
@@ -27,6 +30,7 @@ const userSlice = createSlice({
     loading: false,
     hasErrors: false,
     user: null,
+    errorMessage: null,
   },
   extraReducers: (builder) => {
     builder
@@ -39,17 +43,13 @@ const userSlice = createSlice({
         state.loading = false;
         state.hasErrors = false;
         state.user = action.payload;
-        
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
-        if (action.error.message === "Network response was not ok") {
-          state.hasErrors = true;
-        }
-        else {
-          state.hasErrors = false;
-        }
+        state.hasErrors = true;
+        state.errorMessage = action.error.message;
+        toast.error(action.error.message);
       });
   },
 });
