@@ -4,33 +4,46 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/Redux/user/userSclice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { HashLoader } from "react-spinners";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const { loading, error, user } = useSelector((state) => state.user);
+  const { error, user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = (event) => {
-    event.preventDefault();
+  const handleLogin = async (event) => {
+    try {
+      event.preventDefault();
+      setLoading(true);
 
-    let userCredentials = {
-      email,
-      password,
-    };
+      let userCredentials = {
+        email,
+        password,
+      };
 
-    dispatch(loginUser(userCredentials)).then((result) => {
-      const message = result.payload.message;
+      const result = await dispatch(loginUser(userCredentials));
+
       if (result.payload) {
+        const message = result.payload.message;
         toast.success(message);
         setEmail("");
         setPassword("");
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 4000);
       }
-      console.log(message);
-    });
+    } catch (error) {
+      console.error("Login error:", error);
+      let errorMessage = "An error occurred during login.";
+
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,7 +82,7 @@ export const Login = () => {
               type="submit"
               className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
             >
-              Login
+              {loading ? <HashLoader size={35} color="#ffffff" /> : "Login"}
             </button>
           </div>
 
