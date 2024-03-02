@@ -1,6 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+export const registerUser = createAsyncThunk(
+  "user/registerUser",
+  async (userCredentials) => {
+    const response = await fetch("http://localhost:3000/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userCredentials),
+    });
+    if (!response.ok) {
+      throw new Error("User with this email already exists");
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (userCredentials) => {
@@ -45,6 +63,26 @@ const userSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.user = null;
+        state.hasErrors = true;
+        state.errorMessage = action.error.message;
+        toast.error(action.error.message);
+      });
+
+    builder
+      .addCase(registerUser.pending, (state, action) => {
+        state.loading = true;
+        state.user = null;
+        state.hasErrors = false;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.user = action.payload;
+        toast.success("User registered successfully");
+      })
+      .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
         state.hasErrors = true;
