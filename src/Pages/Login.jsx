@@ -1,14 +1,38 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../features/Redux/user/userSclice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { loading, error, user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+
+    let userCredentials = {
+      email,
+      password,
+    };
+
+    dispatch(loginUser(userCredentials)).then((result) => {
+      const message = result.payload.message;
+      if (result.payload) {
+        toast.success(message);
+        setEmail("");
+        setPassword("");
+        navigate("/");
+      }
+      console.log(message);
+    });
   };
+
   return (
     <section className="px-5 lg:px-0">
       <div className="w-full max-w-[570px] mx-auto rounded-lg shadow-md md:p-10">
@@ -16,14 +40,14 @@ export const Login = () => {
           Hello ! <span className="text-primaryColor">Welcome</span> Back
         </h3>
 
-        <form action="" className="px-5 md:py-0">
+        <form action="" className="px-5 md:py-0" onSubmit={handleLogin}>
           <div className="mb-5">
             <input
               type="email"
               placeholder="Enter your email address"
               name="email"
-              value={formData.email}
-              onChange={handleInputChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full  py-3 border-b border-solid border-[#0066ff61] focus:outline-none placeholder:text-textColor cursor-pointer"
               required
             />
@@ -33,8 +57,8 @@ export const Login = () => {
               type="password"
               placeholder="Enter your password"
               name="password"
-              value={formData.password}
-              onChange={handleInputChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full  py-3 border-b border-solid border-[#0066ff61] focus:outline-none placeholder:text-textColor cursor-pointer"
               required
             />
