@@ -11,9 +11,14 @@ export const registerUser = createAsyncThunk(
       },
       body: JSON.stringify(userCredentials),
     });
+
     if (!response.ok) {
-      throw new Error("User with this email already exists");
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "Registration failed due to an unknown error"
+      );
     }
+
     const data = await response.json();
     return data;
   }
@@ -31,8 +36,9 @@ export const loginUser = createAsyncThunk(
     });
 
     if (!response.ok) {
+      const errorData = await response.json();
       throw new Error(
-        "Invalid email or password. Please check your credentials and try again."
+        errorData.message || "Login failed due to an unknown error"
       );
     }
 
@@ -80,7 +86,6 @@ const userSlice = createSlice({
         state.loading = false;
         state.hasErrors = false;
         state.user = action.payload;
-        toast.success("User registered successfully");
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;

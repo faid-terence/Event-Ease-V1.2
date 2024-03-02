@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import signUpImg from "../assets/lsignup.gif";
-import avartar from "../assets/terence 1.png";
 import signUpImgII from "../assets/Signup-svg-2.svg";
-import Flags from "react-flags-select";
 import uploadImageToCloudinary from "../utilities/uploadCloudinary";
 import { toast } from "react-toastify";
-
-
 import HashLoader from "react-spinners/HashLoader";
 import EastAfricanFlags from "../components/countries/EastAfrica.jsx";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../features/Redux/user/userSclice.js";
+
 export const SignUp = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
@@ -25,6 +22,7 @@ export const SignUp = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,7 +47,35 @@ export const SignUp = () => {
   };
 
   const submitHandler = async (event) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
+      setLoading(true);
+
+      const result = await dispatch(registerUser(formData));
+
+      if (result.payload) {
+        const message = result.payload.message;
+        toast.success(message);
+        setTimeout(() => {
+          navigate("/auth/signin");
+        }, 4000);
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      let errorMessage = "An error occurred during registration.";
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        errorMessage = error.response.data.message;
+      }
+
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -73,7 +99,6 @@ export const SignUp = () => {
                   Full names<span className="text-red-500 ml-2">*</span>:
                   <input
                     type="text"
-                    // placeholder="Full Names"
                     name="fullNames"
                     value={formData.fullNames}
                     onChange={handleInputChange}
@@ -87,7 +112,6 @@ export const SignUp = () => {
                   Email<span className="text-red-500 ml-2">*</span>:
                   <input
                     type="email"
-                    // placeholder="Email Address *"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
@@ -115,7 +139,6 @@ export const SignUp = () => {
                   Phone Number<span className="text-red-500 ml-2">*</span>:
                   <input
                     type="tel"
-                    // placeholder="Phone Number"
                     name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
@@ -130,12 +153,11 @@ export const SignUp = () => {
                   Password<span className="text-red-500 ml-2">*</span>:
                   <input
                     type="password"
-                    // placeholder="Create a strong Password"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
                     className="w-full pr-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none placeholder:text-textColor cursor-pointer"
-                    required // Ensure password field is marked as required
+                    required
                   />
                 </label>
               </div>
