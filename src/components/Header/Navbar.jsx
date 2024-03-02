@@ -22,28 +22,55 @@ const navLinks = [
   },
 ];
 
+function getUser() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    try {
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const userName = decodedToken.name;
+      const profileImage = decodedToken.photo;
+
+      return { userName, profileImage };
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  } else {
+    console.error("Token not found in local storage");
+    return null;
+  }
+}
+
 export const Navbar = () => {
+  const [user, setUser] = useState(getUser());
   const headerRef = useRef(null);
   const menuRef = useRef(null);
 
   const handleStickyHeader = () => {
-    window.addEventListener("scroll", () => {
-      if (
-        document.body.scrollTop > 80 ||
-        document.documentElement.scrollTop > 80
-      ) {
-        headerRef.current.classList.add("sticky-header");
-      } else {
-        headerRef.current.classList.remove("sticky-header");
-      }
-    });
+    if (
+      document.body.scrollTop > 80 ||
+      document.documentElement.scrollTop > 80
+    ) {
+      headerRef.current.classList.add("sticky-header");
+    } else {
+      headerRef.current.classList.remove("sticky-header");
+    }
   };
+
   useEffect(() => {
     handleStickyHeader();
 
-    return () => window.removeEventListener("scroll", handleStickyHeader);
-  });
+    const scrollListener = () => {
+      handleStickyHeader();
+    };
+
+    window.addEventListener("scroll", scrollListener);
+
+    return () => window.removeEventListener("scroll", scrollListener);
+  }, []); 
+
   const toggleMenu = () => menuRef.current.classList.toggle("show_menu");
+
   return (
     <>
       <div className="bg-[#EFEFEF] flex items-center justify-center h-10">
@@ -62,11 +89,8 @@ export const Navbar = () => {
                   <li key={index}>
                     <NavLink
                       to={link.path}
-                      className={(navclass) =>
-                        navclass.isActive
-                          ? "text-black text-[16px] leading-7 font-[700]"
-                          : "text-white text-[16px] leading-7 font-[500] hover:ease-out"
-                      }
+                      activeClassName="text-black text-[16px] leading-7 font-[700]" // Use activeClassName for active link styling
+                      className="text-white text-[16px] leading-7 font-[500] hover:ease-out"
                     >
                       {link.display}
                     </NavLink>
@@ -75,18 +99,26 @@ export const Navbar = () => {
               </ul>
             </div>
             <div className="flex items-center gap-4">
-              <div className="hidden">
-                <Link to="/">
-                  <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                    <img src={userImage} alt="" />
-                  </figure>
+              {user ? (
+                <div>
+                  <Link to="/">
+                    <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
+                      <img
+                        src={user.profileImage}
+                        alt=""
+                        className="rounded-full"
+                      />
+                    </figure>
+                  </Link>
+                </div>
+              ) : (
+                <Link to="/auth/signin">
+                  <button className="bg-white py-2 px-6 text-black font-[700] h-[44px] flex items-center justify-center rounded-[50px]">
+                    LOGIN
+                  </button>
                 </Link>
-              </div>
-              <Link to="/auth/signin">
-                <button className="bg-white py-2 px-6 text-black font-[700] h-[44px] flex items-center justify-center rounded-[50px]">
-                  LOGIN
-                </button>
-              </Link>
+              )}
+
               <span className="md:hidden" onClick={toggleMenu}>
                 <BiMenu className="w-6 h-6 cursor-pointer" color="white" />
               </span>
