@@ -1,0 +1,40 @@
+.pop-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.popup {
+  width: 350px;
+  height: 280px;
+  padding: 30px 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  z-index: 2;
+  text-align: center;
+}
+
+.pop-icon {
+  margin: 5px 0px;
+  width: 50px;
+  height: 50px;
+
+  text-align: center;
+  display: inline-block;
+  border-radius: 50%;
+  line-height: 60px;
+}
+
+.pop-title {
+  margin: 5px 0px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.pop-description {
+  color: #222;
+  font-size: 15px;
+  padding: 5px;
+}

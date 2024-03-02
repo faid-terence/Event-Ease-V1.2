@@ -1,0 +1,73 @@
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input Box */
+.input-box {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Gender Box */
+.gender-box {
+  margin-bottom: 20px;
+}
+
+.gender-option {
+  display: flex;
+}
+
+.gender {
+  margin-right: 20px;
+}
+
+/* Address Box */
+.address {
+  margin-top: 20px;
+}
+
+.select-box {
+  margin-bottom: 10px;
+}
+
+select,
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Button */
+button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Button Hover Effect */
+button:hover {
+  background-color: #45a049;
+}
