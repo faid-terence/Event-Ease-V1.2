@@ -16,7 +16,6 @@ export const EventCard = ({
       <div className="img-container">
         <img src={eventImage} alt="Event image" />
       </div>
-
       <div className="body-container">
         <div className="overlay"></div>
 
@@ -36,9 +35,7 @@ export const EventCard = ({
               {dateTime}
             </p>
 
-            <p className="info description">
-              {description} <span>more...</span>
-            </p>
+            <p className="info description">{description}</p>
           </div>
         </div>
         <button className="action">Book it</button>

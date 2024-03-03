@@ -19,7 +19,7 @@ export const Event = () => {
       <section>
         <div className="container text-center">
           <h2 className="heading">Find Events</h2>
-          <div className="max-w-[570px] mt-[30px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
+          <div className="max-w-[570px] mt-[10px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
             <input
               type="search"
               className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder:text-textColor"
@@ -32,10 +32,7 @@ export const Event = () => {
         </div>
       </section>
       <section>
-        <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          <div className="col-span-full">
-            <h2 className="heading pl-8">Upcoming events : </h2>
-          </div>
+        <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
           {events.map((event, index) => (
             <EventCard
               key={index}
