@@ -49,10 +49,6 @@ export const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    setTimeout(() => {
-      window.location.href = "/auth/signin";
-    }, 1000);
-    window.location.reload();
   };
 
   const headerRef = useRef(null);
@@ -137,12 +133,13 @@ export const Navbar = () => {
                       >
                         <BiSolidDashboard className="mr-2" /> Dashboard
                       </Link>
-                      <button
+                      <Link
+                        to="/auth/signin"
+                        className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
                         onClick={handleLogout}
-                        className="flex items-center w-full text-left px-4 py-1.5 text-gray-800 hover:bg-gray-200 transition duration-300"
                       >
                         <BiLogOutCircle className="mr-2" /> Logout
-                      </button>
+                      </Link>
                     </div>
                   )}
                 </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 import userImage from "../../assets/terence 1.png";
+import { BiSolidDashboard, BiLogOutCircle } from "react-icons/bi";
 
 const navLinks = [
   {
@@ -47,6 +48,12 @@ export const Header = () => {
   const menuRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
   const [bgColor, setBgColor] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
 
   const handleStickyHeader = () => {
     const scrollPosition = window.scrollY;
@@ -69,6 +76,7 @@ export const Header = () => {
   }, []);
 
   const toggleMenu = () => menuRef.current.classList.toggle("show_menu");
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
     <>
@@ -104,27 +112,44 @@ export const Header = () => {
             </div>
             <div className="flex items-center gap-4">
               {user ? (
-                <div>
-                  <Link to="/">
-                    <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                      <img
-                        src={user.profileImage}
-                        alt=""
-                        className="rounded-full"
-                      />
-                    </figure>
-                  </Link>
+                <div
+                  className="relative"
+                  onBlur={() => setIsDropdownOpen(false)}
+                >
+                  <img
+                    src={user.profileImage}
+                    alt=""
+                    className="w-8 h-8 rounded-full cursor-pointer"
+                    onClick={toggleDropdown}
+                  />
+                  {isDropdownOpen && (
+                    <div className="absolute left-[-60px] mt-2 w-40 rounded bg-white shadow-md">
+                      <Link
+                        to="/my-events"
+                        className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
+                      >
+                        <BiSolidDashboard className="mr-2" /> Dashboard
+                      </Link>
+                      <Link
+                        to="/auth/signin"
+                        className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
+                        onClick={handleLogout}
+                      >
+                        <BiLogOutCircle className="mr-2" /> Logout
+                      </Link>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <Link to="/auth/signin">
-                  <button className="bg-white py-2 px-6 text-black font-[700] h-[44px] flex items-center justify-center rounded-[50px]">
+                  <button className="bg-white py-2 px-6 text-black font-semibold h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition duration-300">
                     LOGIN
                   </button>
                 </Link>
               )}
 
               <span className="md:hidden" onClick={toggleMenu}>
-                <BiMenu className="w-6 h-6 cursor-pointer" color="white" />
+                <BiMenu className="w-6 h-6 cursor-pointer text-white" />
               </span>
             </div>
           </div>
