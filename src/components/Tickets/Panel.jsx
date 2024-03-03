@@ -1,7 +1,22 @@
-
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { fetchEventWithTickets } from "../../features/Redux/events/eventSlice";
 
 export const Panel = () => {
+  const dispatch = useDispatch();
+
+  const { id } = useParams();
+  const { events, loading, hasErrors } = useSelector((state) => state.event);
+  const event = events.length > 0 ? events[0] : null;
+  const tickets = event?.eventTickets;
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchEventWithTickets(id));
+    }
+  }, [dispatch, id]);
+
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">
@@ -13,30 +28,20 @@ export const Panel = () => {
           Ticket Categories:
         </p>
         <ul className="mt-3">
-          <li className="flex items-center justify-between mb-2">
-            <p className="text-[15px] leading-6 text-textColor font-semibold">
-              VIP Pass
-            </p>
-            <p className="text-[15px] leading-6 text-textColor font-semibold">
-              $100
-            </p>
-          </li>
-          <li className="flex items-center justify-between mb-2">
-            <p className="text-[15px] leading-6 text-textColor font-semibold">
-              General Admission
-            </p>
-            <p className="text-[15px] leading-6 text-textColor font-semibold">
-              $50
-            </p>
-          </li>
-          <li className="flex items-center justify-between mb-2">
-            <p className="text-[15px] leading-6 text-textColor font-semibold">
-              Student Pass
-            </p>
-            <p className="text-[15px] leading-6 text-textColor font-semibold">
-              $25
-            </p>
-          </li>
+          {tickets &&
+            tickets.map((ticket, index) => (
+              <li
+                key={index}
+                className="flex items-center justify-between mb-2"
+              >
+                <p className="text-[15px] leading-6 text-textColor font-semibold">
+                  {ticket.category}
+                </p>
+                <p className="text-[15px] leading-6 text-textColor font-semibold">
+                  ${ticket.price}
+                </p>
+              </li>
+            ))}
         </ul>
       </div>
 
@@ -44,5 +49,3 @@ export const Panel = () => {
     </div>
   );
 };
-
-

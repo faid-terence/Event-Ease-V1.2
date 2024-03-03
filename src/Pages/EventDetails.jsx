@@ -18,7 +18,6 @@ export const EventDetails = () => {
   const { id } = useParams();
   const { events, loading, hasErrors } = useSelector((state) => state.event);
   const event = events.length > 0 ? events[0] : null;
-  console.log(event);
 
   useEffect(() => {
     if (id) {
@@ -33,7 +32,11 @@ export const EventDetails = () => {
           <div className="md:col-span-2">
             <div className="flex items-center gap-5">
               <figure className="max-w-[300px] max-h-[300px]">
-                <img src={eventImage} alt="" className="w-full" />
+                <img
+                  src={event?.event.Event_Image}
+                  alt="Event Image"
+                  className="w-full"
+                />
               </figure>
 
               <div>
