@@ -55,6 +55,29 @@ export const Header = () => {
     setUser(null);
   };
 
+  // immediately logout user if token is expired
+  useEffect(() => {
+    if (user) {
+      const token = localStorage.getItem("token");
+      if (token === null) {
+        handleLogout();
+        return; // Exit early to avoid further processing
+      }
+      const tokenParts = token.split(".");
+      if (tokenParts.length !== 3) {
+        // Handle invalid token format
+        handleLogout();
+        return; // Exit early to avoid further processing
+      }
+      const decodedToken = JSON.parse(atob(tokenParts[1]));
+      const tokenExpiration = decodedToken.exp;
+      const currentTime = Math.floor(Date.now() / 1000);
+      if (tokenExpiration < currentTime) {
+        handleLogout();
+      }
+    }
+  }, [user]);
+
   const handleStickyHeader = () => {
     const scrollPosition = window.scrollY;
 
