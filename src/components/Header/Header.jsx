@@ -33,11 +33,9 @@ function getUser() {
 
       return { userName, profileImage };
     } catch (error) {
-      console.error("Error decoding token:", error);
       return null;
     }
   } else {
-    console.error("Token not found in local storage");
     return null;
   }
 }

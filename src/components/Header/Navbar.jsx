@@ -33,7 +33,6 @@ function getUser() {
 
       return { userName, profileImage };
     } catch (error) {
-      console.error("Error decoding token:", error);
       return null;
     }
   } else {
@@ -126,7 +125,6 @@ export const Navbar = () => {
                   <li key={index}>
                     <NavLink
                       to={link.path}
-                      activeClassName="text-black text-[16px] leading-7 font-[700]" // Use activeClassName for active link styling
                       className="text-white text-[16px] leading-7 font-[500] hover:ease-out"
                     >
                       {link.display}
