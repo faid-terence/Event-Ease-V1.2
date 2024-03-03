@@ -1,11 +1,31 @@
 import eventImage from "../assets/images/img1.jpg";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { EventAbout } from "./EventAbout";
 import { Feedback } from "./Feedback";
 import { Panel } from "../components/Tickets/Panel";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import {
+  fetchEventById,
+  fetchEventWithTickets,
+} from "../features/Redux/events/eventSlice";
 
 export const EventDetails = () => {
   const [tab, setTab] = useState("about");
+
+  const dispatch = useDispatch();
+
+  const { id } = useParams();
+  const { events, loading, hasErrors } = useSelector((state) => state.event);
+  const event = events.length > 0 ? events[0] : null;
+  console.log(event);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchEventWithTickets(id));
+    }
+  }, [dispatch, id]);
+
   return (
     <section>
       <div className="container px-5 mx-auto">
@@ -17,27 +37,21 @@ export const EventDetails = () => {
               </figure>
 
               <div>
-                {/* <span className="py-1 px-6 lg:py-2 lg:px-6 text-[12px]">
-        Event
-    </span> */}
-
                 <h3 className="text-headingColor text-[22px] leading-9 mt-3 font-bold">
-                  Bubbe's Book Club
+                  {event?.event.Event_Name}
                 </h3>
                 <p className="text__para text-[14px] leading-5 md:text-[15px] lg:max-w-[390px]">
-                  Welcome! Everyone has a unique perspective after reading a
-                  book, and we would love you to share yours with us! We meet
-                  one Sunday evening
+                  {event?.event.Event_Description}
                 </p>
 
                 <p className="text-[14px] leading-5 md:text-[15px] lg:max-w-[390px] mt-2">
-                  <strong>Location:</strong> Bellmore, NY
+                  <strong>Location:</strong> {event?.event.Event_Location}
                 </p>
                 <p className="text-[14px] leading-5 md:text-[15px] lg:max-w-[390px] mt-2">
-                  <strong>Venue:</strong> Grand Central Terminal
+                  <strong>Venue:</strong> {event?.event.Event_Venue}
                 </p>
                 <p className="text-[14px] leading-5 md:text-[15px] lg:max-w-[390px] mt-2">
-                  <strong>Date:</strong> Sat, Sep 24, 10:00 AM EDT
+                  <strong>Date:</strong> {event?.event.Event_Date}
                 </p>
               </div>
             </div>

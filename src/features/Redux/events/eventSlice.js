@@ -20,12 +20,24 @@ export const fetchEventById = createAsyncThunk(
   }
 );
 
+export const fetchEventWithTickets = createAsyncThunk(
+  "event/fetchEventWithTickets",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(`http://localhost:3000/events/${id}/tickets`);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+
 const eventSlice = createSlice({
   name: "event",
   initialState: {
     loading: false,
     hasErrors: false,
-    events: [] ,
+    events: [],
   },
   extraReducers: (builder) => {
     builder
@@ -57,6 +69,23 @@ const eventSlice = createSlice({
         state.events = [action.payload];
       })
       .addCase(fetchEventById.rejected, (state, action) => {
+        state.loading = false;
+        state.events = [];
+        state.hasErrors = true;
+      });
+
+    builder
+      .addCase(fetchEventWithTickets.pending, (state, action) => {
+        state.loading = true;
+        state.events = [];
+        state.hasErrors = false;
+      })
+      .addCase(fetchEventWithTickets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.events = [action.payload];
+      })
+      .addCase(fetchEventWithTickets.rejected, (state, action) => {
         state.loading = false;
         state.events = [];
         state.hasErrors = true;
