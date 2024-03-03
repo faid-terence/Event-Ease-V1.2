@@ -1,6 +1,6 @@
 import React from "react";
 import "./Card.css";
-import eventImage from "../../assets/images/img1.jpg";
+import { Link } from "react-router-dom";
 
 export const EventCard = ({
   eventImage,
@@ -38,7 +38,9 @@ export const EventCard = ({
             <p className="info description">{description}</p>
           </div>
         </div>
-        <button className="action">Book it</button>
+        <Link to={linkPath}>
+          <button className="action">Book it</button>
+        </Link>
       </div>
     </div>
   );

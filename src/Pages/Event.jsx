@@ -3,6 +3,8 @@ import { EventCard } from "../components/Event/Card";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchEvents } from "../features/Redux/events/eventSlice";
 
+import { Link } from "react-router-dom";
+
 export const Event = () => {
   const dispatch = useDispatch();
   const { events, loading, error } = useSelector((state) => state.event);
@@ -33,9 +35,9 @@ export const Event = () => {
       </section>
       <section>
         <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {events.map((event, index) => (
+          {events.map((event) => (
             <EventCard
-              key={index}
+              key={event.id}
               eventImage={event.Event_Image}
               title={event.Event_Name}
               location={event.Event_Location}
@@ -43,6 +45,7 @@ export const Event = () => {
               venue={event.Event_Venue}
               dateTime={event.Event_Date}
               description={event.Event_Description}
+              linkPath={`/events/${event.id}`}
             />
           ))}
         </div>
