@@ -4,21 +4,13 @@ import CreateEventFormModal from "./CreateEventFormModal";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrganizerEvent } from "../../../features/Redux/organizer/organizerSlice";
 
-const eventsData = [
-  { id: 1, name: "Concert", date: "2024-02-15", location: "City Hall" },
-  {
-    id: 2,
-    name: "Conference",
-    date: "2024-03-10",
-    location: "Conference Center",
-  },
-];
-
 export const MyEvents = () => {
   const dispatch = useDispatch();
 
-  const { events, loading, error } = useSelector((state) => state.event);
+  const { events, loading, error } = useSelector((state) => state.organizer);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     dispatch(fetchOrganizerEvent());
   }, [dispatch]);
@@ -30,6 +22,12 @@ export const MyEvents = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  console.log(events);
+
   return (
     <>
       <div className="max-w-[570px] mt-[100px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
@@ -42,8 +40,10 @@ export const MyEvents = () => {
           Search
         </button>
       </div>
-      <EventTable events={eventsData} openModal={openModal} />;
-      <CreateEventFormModal isOpen={isModalOpen} onClose={closeModal} />
+      <EventTable events={events} openModal={openModal} />
+      {isModalOpen && (
+        <CreateEventFormModal isOpen={isModalOpen} onClose={closeModal} />
+      )}
     </>
   );
 };
