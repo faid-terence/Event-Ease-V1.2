@@ -49,17 +49,25 @@ const CreateEventPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Please log in.");
+      return;
+    }
+
     try {
       const result = await dispatch(createEvent(eventData));
 
       if (result.payload) {
         const message = "Event created successfully!";
         toast.success(message);
+        setTimeout(() => {
+          navigate("/events");
+        }, 2000);
       }
-      setTimeout(() => {
-        navigate("/events");
-      }, 2000);
     } catch (error) {
+      toast.error(error.message);
       console.error("Error creating event:", error);
       const errorMessage = "An error occurred while creating the event.";
       toast.error(errorMessage);
