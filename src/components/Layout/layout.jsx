@@ -20,7 +20,8 @@ export const Layout = () => {
   const excludeFooter =
     location.pathname === "/dashboard" ||
     location.pathname === "/payments" ||
-    location.pathname === "/verify-email";
+    location.pathname === "/verify-email" ||
+    location.pathname === "/my-events";
 
   return (
     <>
