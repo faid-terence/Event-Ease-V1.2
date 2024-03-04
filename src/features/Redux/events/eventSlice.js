@@ -8,6 +8,25 @@ export const fetchEvents = createAsyncThunk("event/fetchEvents", async () => {
   return data;
 });
 
+export const createEvent = createAsyncThunk(
+  "event/createEvent",
+  async (event, { rejectWithValue }) => {
+    const response = await fetch("http://localhost:3000/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(event),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to create event");
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const fetchEventById = createAsyncThunk(
   "event/fetchEventById",
   async (id, { rejectWithValue }) => {
@@ -86,6 +105,23 @@ const eventSlice = createSlice({
         state.events = [action.payload];
       })
       .addCase(fetchEventWithTickets.rejected, (state, action) => {
+        state.loading = false;
+        state.events = [];
+        state.hasErrors = true;
+      });
+
+    builder
+      .addCase(createEvent.pending, (state, action) => {
+        state.loading = true;
+        state.events = [];
+        state.hasErrors = false;
+      })
+      .addCase(createEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.events = [action.payload];
+      })
+      .addCase(createEvent.rejected, (state, action) => {
         state.loading = false;
         state.events = [];
         state.hasErrors = true;

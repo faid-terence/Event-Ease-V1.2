@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { BsArrowBarDown, BsArrowBarRight } from "react-icons/bs";
 
 const CreateEventPage = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
   const [eventData, setEventData] = useState({
     eventName: "",
     eventDescription: "",
     eventDateTime: "",
     eventLocation: "",
     eventVenue: "",
+    eventImage: selectedFile,
   });
 
   const handleChange = (e) => {
