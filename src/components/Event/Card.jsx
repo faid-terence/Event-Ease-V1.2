@@ -10,6 +10,7 @@ export const EventCard = ({
   venue,
   dateTime,
   description,
+  linkPath,
 }) => {
   return (
     <div className="item-container">

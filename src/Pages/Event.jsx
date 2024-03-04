@@ -3,8 +3,6 @@ import { EventCard } from "../components/Event/Card";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchEvents } from "../features/Redux/events/eventSlice";
 
-import { Link } from "react-router-dom";
-
 export const Event = () => {
   const dispatch = useDispatch();
   const { events, loading, error } = useSelector((state) => state.event);
@@ -41,7 +39,7 @@ export const Event = () => {
               eventImage={event.Event_Image}
               title={event.Event_Name}
               location={event.Event_Location}
-              price={event.Event_Venue}
+              price={event.Event_Price}
               venue={event.Event_Venue}
               dateTime={event.Event_Date}
               description={event.Event_Description}
