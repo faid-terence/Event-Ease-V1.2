@@ -2,7 +2,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchOrganizerEvent = createAsyncThunk(
   "organizer/fetchOrganizerEvent",
   async (id, { rejectWithValue }) => {
-    const response = await fetch(`http://localhost:3000/events/organizer`);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return rejectWithValue("Token not found");
+    }
+    const response = await fetch(`http://localhost:3000/events/organizer`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (!response.ok) {
       const error = await response.json();
       return rejectWithValue(error);

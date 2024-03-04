@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EventTable from "./EventsTable";
 import CreateEventFormModal from "./CreateEventFormModal";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrganizerEvent } from "../../../features/Redux/organizer/organizerSlice";
 
 const eventsData = [
   { id: 1, name: "Concert", date: "2024-02-15", location: "City Hall" },
@@ -13,7 +15,13 @@ const eventsData = [
 ];
 
 export const MyEvents = () => {
+  const dispatch = useDispatch();
+
+  const { events, loading, error } = useSelector((state) => state.event);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    dispatch(fetchOrganizerEvent());
+  }, [dispatch]);
 
   const openModal = () => {
     setIsModalOpen(true);
