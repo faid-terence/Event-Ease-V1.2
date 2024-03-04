@@ -11,19 +11,28 @@ export const fetchEvents = createAsyncThunk("event/fetchEvents", async () => {
 export const createEvent = createAsyncThunk(
   "event/createEvent",
   async (event, { rejectWithValue }) => {
-    const response = await fetch("http://localhost:3000/events", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(event),
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to create event");
+    try {
+      const token = localStorage.getItem("token"); // Retrieve token from local storage
+
+      const response = await fetch("http://localhost:3000/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Include bearer token in headers
+        },
+        body: JSON.stringify(event),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create event");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
-    const data = await response.json();
-    return data;
   }
 );
 

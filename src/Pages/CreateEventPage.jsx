@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import { BsArrowBarDown, BsArrowBarRight } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { createEvent } from "../features/Redux/events/eventSlice";
+import uploadImageToCloudinary from "../utilities/uploadCloudinary";
+import HashLoader from "react-spinners/HashLoader";
+import { useNavigate } from "react-router-dom";
 
 const CreateEventPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [eventData, setEventData] = useState({
-    eventName: "",
-    eventDescription: "",
-    eventDateTime: "",
-    eventLocation: "",
-    eventVenue: "",
-    eventImage: selectedFile,
+    EventName: "",
+    EventDescription: "",
+    EventDate: "",
+    EventLocation: "",
+    EventVenue: "",
+    EventPhoto: selectedFile,
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setEventData({
@@ -19,13 +27,44 @@ const CreateEventPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const isMediumDevice = window.innerWidth <= 768;
+
+  const handleFileInputChange = async (event) => {
+    try {
+      const file = event.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      const data = await uploadImageToCloudinary(file);
+
+      setSelectedFile(data.url);
+      setEventData({ ...eventData, EventPhoto: data.url });
+      console.log("Event Image URL:", data.url);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Event Data Submitted:", eventData);
-  };
+    try {
+      const result = await dispatch(createEvent(eventData));
 
-  const isMediumDevice = window.innerWidth <= 768;
+      if (result.payload) {
+        const message = "Event created successfully!";
+        toast.success(message);
+      }
+      setTimeout(() => {
+        navigate("/events");
+      }, 2000);
+    } catch (error) {
+      console.error("Error creating event:", error);
+      const errorMessage = "An error occurred while creating the event.";
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full max-w-5xl mx-auto my-[100px]">
@@ -42,51 +81,51 @@ const CreateEventPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label
-                    htmlFor="eventName"
+                    htmlFor="EventName"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Event Name
                   </label>
                   <input
                     type="text"
-                    id="eventName"
-                    name="eventName"
+                    id="EventName"
+                    name="EventName"
                     required
                     onChange={handleChange}
-                    value={eventData.eventName}
+                    value={eventData.EventName}
                     className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
                 <div>
                   <label
-                    htmlFor="eventDateTime"
+                    htmlFor="EventDate"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Date and Time
                   </label>
                   <input
                     type="datetime-local"
-                    id="eventDateTime"
-                    name="eventDateTime"
+                    id="EventDate"
+                    name="EventDate"
                     required
                     onChange={handleChange}
-                    value={eventData.eventDateTime}
+                    value={eventData.EventDate}
                     className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
               </div>
               <div className="mb-4">
                 <label
-                  htmlFor="eventDescription"
+                  htmlFor="EventDescription"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Description
                 </label>
                 <textarea
-                  id="eventDescription"
-                  name="eventDescription"
+                  id="EventDescription"
+                  name="EventDescription"
                   onChange={handleChange}
-                  value={eventData.eventDescription}
+                  value={eventData.EventDescription}
                   className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   rows="3"
                 ></textarea>
@@ -94,51 +133,63 @@ const CreateEventPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label
-                    htmlFor="eventLocation"
+                    htmlFor="EventLocation"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Location
                   </label>
                   <input
                     type="text"
-                    id="eventLocation"
-                    name="eventLocation"
+                    id="EventLocation"
+                    name="EventLocation"
                     onChange={handleChange}
-                    value={eventData.eventLocation}
+                    value={eventData.EventLocation}
                     className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
                 <div>
                   <label
-                    htmlFor="eventVenue"
+                    htmlFor="EventVenue"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Venue
                   </label>
                   <input
                     type="text"
-                    id="eventVenue"
-                    name="eventVenue"
+                    id="EventVenue"
+                    name="EventVenue"
                     onChange={handleChange}
-                    value={eventData.eventVenue}
+                    value={eventData.EventVenue}
                     className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
               </div>
-              <div className="relative w-full h-12">
-                <input
-                  type="file"
-                  name="photo"
-                  id="customFile"
-                  accept=".jpg, .png, .jpeg"
-                  className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                />
-                <label
-                  htmlFor="customFile"
-                  className="absolute top-0 left-0 w-full flex items-center px-3 py-2 text-sm leading-5 text-gray-800 bg-gray-200 font-semibold rounded-md truncate cursor-pointer"
-                >
-                  Add Event Image
-                </label>
+              <div className="mt-8">
+                {selectedFile && (
+                  <figure className="w-48 h-50 border-2 border-solid bg-green-300 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={selectedFile}
+                      alt="Event"
+                      className="w-full h-full object-cover"
+                    />
+                  </figure>
+                )}
+                <div className="relative w-full h-12 mt-4">
+                  <input
+                    type="file"
+                    name="photo"
+                    onChange={handleFileInputChange}
+                    id="customFile"
+                    accept=".jpg, .png, .jpeg"
+                    className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                  />
+                  <label
+                    htmlFor="customFile"
+                    className="absolute top-0 left-0 w-full flex items-center justify-center px-3 py-2 text-sm leading-5 text-gray-800 bg-gray-200 font-semibold rounded-md truncate cursor-pointer hover:bg-gray-300 transition duration-300 ease-in-out"
+                  >
+                    Add Event Image
+                  </label>
+                </div>
               </div>
             </div>
             <div className="flex justify-center">
