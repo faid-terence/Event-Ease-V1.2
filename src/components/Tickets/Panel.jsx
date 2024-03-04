@@ -19,7 +19,6 @@ export const Panel = () => {
   }, [dispatch, id]);
   const event = events.length > 0 ? events[0] : null;
   const tickets = event?.tickets;
-  console.log(tickets);
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">

@@ -5,7 +5,7 @@ import {
   fetchEventById,
   fetchEventWithTickets,
 } from "../features/Redux/events/eventSlice";
-// import { EventAbout } from "./EventAbout";
+import { EventAbout } from "./EventAbout";
 import { Feedback } from "./Feedback";
 import { Panel } from "../components/Tickets/Panel";
 
@@ -22,7 +22,6 @@ export const EventDetails = () => {
   }, [dispatch, id]);
 
   const event = events.length > 0 ? events[0] : null;
-  console.log(event);
   return (
     <section>
       <div className="container px-5 mx-auto">
@@ -82,7 +81,7 @@ export const EventDetails = () => {
               </button>
             </div>
             <div className="mt-[50px]">
-              {/* {tab === "about" && <EventAbout />} */}
+              {tab === "about" && <EventAbout />}
               {tab === "feedback" && <Feedback />}
             </div>
           </div>
