@@ -1,22 +1,25 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchEventWithTickets } from "../../features/Redux/events/eventSlice";
+import {
+  fetchEventById,
+  fetchEventWithTickets,
+} from "../../features/Redux/events/eventSlice";
 
 export const Panel = () => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
   const { events, loading, hasErrors } = useSelector((state) => state.event);
-  const event = events.length > 0 ? events[0] : null;
-  const tickets = event?.eventTickets;
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchEventWithTickets(id));
+      dispatch(fetchEventById(id));
     }
   }, [dispatch, id]);
-
+  const event = events.length > 0 ? events[0] : null;
+  const tickets = event?.tickets;
+  console.log(tickets);
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">
