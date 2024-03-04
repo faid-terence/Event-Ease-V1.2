@@ -13,6 +13,9 @@ export const createEvent = createAsyncThunk(
   async (event, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token"); // Retrieve token from local storage
+      if (!token) {
+        throw new Error("Token not found");
+      }
 
       const response = await fetch("http://localhost:3000/events", {
         method: "POST",
