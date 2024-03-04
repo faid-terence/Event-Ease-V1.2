@@ -25,9 +25,9 @@ const EventTable = ({ events, openModal }) => {
               key={event.id}
               className="border-b border-gray-300 hover:bg-gray-100 transition-all duration-200"
             >
-              <td className="py-3 px-4">{event.name}</td>
-              <td className="py-3 px-4">{event.date}</td>
-              <td className="py-3 px-4">{event.location}</td>
+              <td className="py-3 px-4">{event.Event_Name}</td>
+              <td className="py-3 px-4">{event.Event_Date}</td>
+              <td className="py-3 px-4">{event.Event_Location}</td>
               <td className="py-3 px-4">
                 <button className="mr-2">
                   <FaEye />
