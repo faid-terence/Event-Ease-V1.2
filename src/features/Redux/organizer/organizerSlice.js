@@ -20,6 +20,30 @@ export const fetchOrganizerEvent = createAsyncThunk(
   }
 );
 
+export const organizerUpdateEvent = createAsyncThunk(
+  "organizer/organizerUpdateEvent",
+  async (event, { rejectWithValue }) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return rejectWithValue("Token not found");
+    }
+    const response = await fetch(`http://localhost:3000/events/${event.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(event),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      return rejectWithValue(error);
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const organizerDeleteEvent = createAsyncThunk(
   "organizer/organizerDeleteEvent",
   async (id, { rejectWithValue }) => {
@@ -37,7 +61,6 @@ export const organizerDeleteEvent = createAsyncThunk(
       const error = await response.json();
       console.log(error);
       return rejectWithValue(error);
-      
     }
     const data = await response.json();
     return data;
