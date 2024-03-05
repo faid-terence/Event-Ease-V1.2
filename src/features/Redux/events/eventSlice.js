@@ -12,7 +12,7 @@ export const createEvent = createAsyncThunk(
   "event/createEvent",
   async (event, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token"); // Retrieve token from local storage
+      const token = localStorage.getItem("token"); 
       if (!token) {
         throw new Error("Token not found");
       }
@@ -21,14 +21,13 @@ export const createEvent = createAsyncThunk(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Include bearer token in headers
+          Authorization: `Bearer ${token}`, 
         },
         body: JSON.stringify(event),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData)
         throw new Error(errorData.message || "Failed to create event");
       }
 
