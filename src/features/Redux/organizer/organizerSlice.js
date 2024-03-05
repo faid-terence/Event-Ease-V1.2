@@ -28,7 +28,7 @@ export const organizerUpdateEvent = createAsyncThunk(
       return rejectWithValue("Token not found");
     }
     const response = await fetch(`http://localhost:3000/events/${event.id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -37,6 +37,7 @@ export const organizerUpdateEvent = createAsyncThunk(
     });
     if (!response.ok) {
       const error = await response.json();
+      console.log(error);
       return rejectWithValue(error);
     }
     const data = await response.json();

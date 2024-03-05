@@ -1,11 +1,18 @@
-import React from "react";
+// EventTable.js
+import React, { useState } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { organizerDeleteEvent } from "../../../features/Redux/organizer/organizerSlice";
 import { toast } from "react-toastify";
+import UpdateEventFormModal from "./UpdateEventFormModal";
 
 const EventTable = ({ events, openModal }) => {
   const dispatch = useDispatch();
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const handleEdit = (event) => {
+    setSelectedEvent(event);
+  };
 
   const handleDelete = (id) => {
     dispatch(organizerDeleteEvent(id));
@@ -29,6 +36,7 @@ const EventTable = ({ events, openModal }) => {
             <th className="py-3 px-4 text-left">Event Name</th>
             <th className="py-3 px-4 text-left">Date</th>
             <th className="py-3 px-4 text-left">Location</th>
+            <th className="py-3 px-4 text-left">Description</th>
             <th className="py-3 px-4 text-left">Action</th>
           </tr>
         </thead>
@@ -41,11 +49,12 @@ const EventTable = ({ events, openModal }) => {
               <td className="py-3 px-4">{event.Event_Name}</td>
               <td className="py-3 px-4">{event.Event_Date}</td>
               <td className="py-3 px-4">{event.Event_Location}</td>
+              <td className="py-3 px-4">{event.Event_Description}</td>
               <td className="py-3 px-4">
                 <button className="mr-2">
                   <FaEye />
                 </button>
-                <button className="mr-2">
+                <button className="mr-2" onClick={() => handleEdit(event)}>
                   <FaEdit color="blue" />
                 </button>
                 <button onClick={() => handleDelete(event.id)}>
@@ -56,6 +65,13 @@ const EventTable = ({ events, openModal }) => {
           ))}
         </tbody>
       </table>
+      {selectedEvent && (
+        <UpdateEventFormModal
+          isOpen={true}
+          onClose={() => setSelectedEvent(null)}
+          eventData={selectedEvent}
+        />
+      )}
     </div>
   );
 };
