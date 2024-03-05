@@ -1,7 +1,20 @@
 import React from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { organizerDeleteEvent } from "../../../features/Redux/organizer/organizerSlice";
+import { toast } from "react-toastify";
 
 const EventTable = ({ events, openModal }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(organizerDeleteEvent(id));
+    toast.success("Event deleted successfully");
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
+
   return (
     <div className="overflow-x-auto px-10 mt-[150px]">
       <div className="flex justify-between items-center mb-4">
@@ -35,7 +48,7 @@ const EventTable = ({ events, openModal }) => {
                 <button className="mr-2">
                   <FaEdit color="blue" />
                 </button>
-                <button>
+                <button onClick={() => handleDelete(event.id)}>
                   <FaTrash color="red" />
                 </button>
               </td>
