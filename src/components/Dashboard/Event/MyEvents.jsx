@@ -26,8 +26,6 @@ export const MyEvents = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  console.log(events);
-
   return (
     <>
       <div className="max-w-[570px] mt-[100px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">

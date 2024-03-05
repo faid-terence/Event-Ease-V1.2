@@ -35,7 +35,9 @@ export const organizerDeleteEvent = createAsyncThunk(
     });
     if (!response.ok) {
       const error = await response.json();
+      console.log(error);
       return rejectWithValue(error);
+      
     }
     const data = await response.json();
     return data;
