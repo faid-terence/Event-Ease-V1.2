@@ -20,6 +20,28 @@ export const fetchOrganizerEvent = createAsyncThunk(
   }
 );
 
+export const organizerDeleteEvent = createAsyncThunk(
+  "organizer/organizerDeleteEvent",
+  async (id, { rejectWithValue }) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return rejectWithValue("Token not found");
+    }
+    const response = await fetch(`http://localhost:3000/events/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      return rejectWithValue(error);
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+
 const organizerSlice = createSlice({
   name: "organizer",
   initialState: {
@@ -42,6 +64,23 @@ const organizerSlice = createSlice({
       .addCase(fetchOrganizerEvent.rejected, (state, action) => {
         state.loading = false;
         state.events = [];
+        state.hasErrors = true;
+      });
+
+    builder
+      .addCase(organizerDeleteEvent.pending, (state, action) => {
+        state.loading = true;
+        state.hasErrors = false;
+      })
+      .addCase(organizerDeleteEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.events = state.events.filter(
+          (event) => event.id !== action.payload.id
+        );
+      })
+      .addCase(organizerDeleteEvent.rejected, (state, action) => {
+        state.loading = false;
         state.hasErrors = true;
       });
   },
