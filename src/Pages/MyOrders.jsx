@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserOrders } from "../features/Redux/orders/orderSlice";
+import { payOrder } from "../features/Redux/orders/orderSlice";
 
 const MyOrdersPage = () => {
   const dispatch = useDispatch();
@@ -10,11 +11,16 @@ const MyOrdersPage = () => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
 
-  // console.log(orders);
-
   if (loading) return <div>Loading...</div>;
-  const handlePay = (orderId) => {
-    console.log("Payment initiated for order #" + orderId);
+  const handlePay = async (orderId) => {
+    try {
+      const result = await dispatch(payOrder(orderId));
+      console.log(result); // Log the entire result object to inspect its structure
+      console.log(result.payload.paymentUrl); // Log the paymentUrl property
+      console.log("Payment initiated for order #" + orderId);
+    } catch (error) {
+      console.error("Error occurred while paying for order #" + orderId, error);
+    }
   };
 
   return (
