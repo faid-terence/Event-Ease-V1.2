@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   fetchEventById,
   fetchEventWithTickets,
 } from "../../features/Redux/events/eventSlice";
 
+import { createOrder } from "../../features/Redux/orders/orderSlice";
+import { toast } from "react-toastify";
+
 export const Panel = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const { events, loading, hasErrors } = useSelector((state) => state.event);
@@ -23,16 +27,33 @@ export const Panel = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
-
   const handleBuyTickets = () => {
-    if (selectedCategory && quantity > 0) {
-      console.log("Selected Category:", selectedCategory);
-      console.log("Quantity:", quantity);
+    if (selectedCategory && quantity > 0 && tickets && tickets.length > 0) {
+      const selectedTicket = tickets.find(
+        (ticket) => ticket.category === selectedCategory
+      );
+      if (selectedTicket) {
+        const order = {
+          ticket: selectedTicket.id,
+          quantity,
+        };
+        dispatch(createOrder(order));
+
+        toast.success("Order created successfully!", { autoClose: 2000 });
+        setTimeout(() => {
+          navigate("/orders");
+        }, 2000);
+
+        // console.log("Selected Ticket ID:", selectedTicket.id);
+        // console.log("Selected Category:", selectedCategory);
+        // console.log("Quantity:", quantity);
+      } else {
+        toast.error("Selected category is invalid.");
+      }
     } else {
-      alert("Please select a category and enter a valid quantity.");
+      toast.error("Please select a category and enter a valid quantity.");
     }
   };
-
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">
