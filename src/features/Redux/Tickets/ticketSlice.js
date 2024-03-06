@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const assignTicketToEvent = createAsyncThunk(
   "ticket/assignTicketToEvent",
-  async ({ eventId, ticketDetails }, { rejectWithValue }) => {
+  async (ticketDetails, { rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:3000/tickets/${eventId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(ticketDetails),
-      });
+      const response = await fetch(
+        `http://localhost:3000/tickets/${ticketDetails.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(ticketDetails),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
