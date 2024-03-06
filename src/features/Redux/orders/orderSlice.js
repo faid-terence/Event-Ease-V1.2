@@ -21,13 +21,34 @@ export const createOrder = createAsyncThunk(
   "order/createOrder",
   async (order, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:3000/order/${order.ticket}`, {
+    const response = await fetch(
+      `http://localhost:3000/order/${order.ticket}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(order),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+
+export const payOrder = createAsyncThunk(
+  "order/payOrder",
+  async (orderId, { rejectWithValue }) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`http://localhost:3000/order/${orderId}/pay`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(order),
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");
