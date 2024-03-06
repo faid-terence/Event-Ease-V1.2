@@ -1,46 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserOrders } from "../features/Redux/orders/orderSlice";
 
 const MyOrdersPage = () => {
-  // Sample data for orders
-  const orders = [
-    {
-      id: 1,
-      date: "2024-03-06",
-      status: "Pending",
-      totalPrice: 97.97,
-      items: [
-        {
-          id: 1,
-          name: "Product 1",
-          price: 25.99,
-          quantity: 2,
-        },
-        {
-          id: 2,
-          name: "Product 2",
-          price: 35.99,
-          quantity: 1,
-        },
-      ],
-    },
-    {
-      id: 2,
-      date: "2024-03-05",
-      status: "Completed",
-      totalPrice: 45.99,
-      items: [
-        {
-          id: 3,
-          name: "Product 3",
-          price: 45.99,
-          quantity: 1,
-        },
-      ],
-    },
-  ];
+  const dispatch = useDispatch();
+  const { orders, loading, error } = useSelector((state) => state.order);
 
+  useEffect(() => {
+    dispatch(fetchUserOrders());
+  }, [dispatch]);
+
+  console.log(orders);
+
+  if (loading) return <div>Loading...</div>;
   const handlePay = (orderId) => {
-    // Perform payment action for the order with the provided orderId
     console.log("Payment initiated for order #" + orderId);
   };
 
@@ -53,7 +26,7 @@ const MyOrdersPage = () => {
             <div className="flex justify-between mb-4">
               <div>
                 <h2 className="text-xl font-semibold">Order #{order.id}</h2>
-                <p className="text-gray-600">{order.date}</p>
+                <p className="text-gray-600">{order.orderDate}</p>
               </div>
               <div>
                 <h2 className="text-xl font-semibold">
@@ -63,17 +36,17 @@ const MyOrdersPage = () => {
               </div>
             </div>
             <div>
-              {order.items.map((item) => (
+              {order.tickets.map((item) => (
                 <div key={item.id} className="flex items-center mb-2">
                   <div className="flex-grow">
-                    <p className="text-lg font-semibold">{item.name}</p>
+                    <p className="text-lg font-semibold">{item.category}</p>
                     <p className="text-gray-600">${item.price}</p>
                   </div>
-                  <div className="text-gray-600">{item.quantity}x</div>
+                  <div className="text-gray-600">{order.quantity}x</div>
                 </div>
               ))}
             </div>
-            {order.status === "Pending" && (
+            {order.status === "pending" && (
               <button className="btn mt-4" onClick={() => handlePay(order.id)}>
                 Pay Now
               </button>
