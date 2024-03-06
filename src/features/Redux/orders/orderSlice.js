@@ -21,7 +21,7 @@ export const createOrder = createAsyncThunk(
   "order/createOrder",
   async (order, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:3000/order`, {
+    const response = await fetch(`http://localhost:3000/order/${order.ticket}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -10,7 +10,7 @@ const MyOrdersPage = () => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
 
-  console.log(orders);
+  // console.log(orders);
 
   if (loading) return <div>Loading...</div>;
   const handlePay = (orderId) => {
