@@ -1,6 +1,5 @@
-// EventTable.js
 import React, { useState } from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaTicketAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { organizerDeleteEvent } from "../../../features/Redux/organizer/organizerSlice";
 import { toast } from "react-toastify";
@@ -22,6 +21,11 @@ const EventTable = ({ events, openModal }) => {
     }, 2000);
   };
 
+  const handleAssignTickets = (event) => {
+    // Implement logic to handle assigning tickets to the event
+    console.log("Assign tickets to event:", event);
+  };
+
   return (
     <div className="overflow-x-auto px-10 mt-[150px]">
       <div className="flex justify-between items-center mb-4">
@@ -36,7 +40,6 @@ const EventTable = ({ events, openModal }) => {
             <th className="py-3 px-4 text-left">Event Name</th>
             <th className="py-3 px-4 text-left">Date</th>
             <th className="py-3 px-4 text-left">Location</th>
-            <th className="py-3 px-4 text-left">Description</th>
             <th className="py-3 px-4 text-left">Action</th>
           </tr>
         </thead>
@@ -49,13 +52,18 @@ const EventTable = ({ events, openModal }) => {
               <td className="py-3 px-4">{event.Event_Name}</td>
               <td className="py-3 px-4">{event.Event_Date}</td>
               <td className="py-3 px-4">{event.Event_Location}</td>
-              <td className="py-3 px-4">{event.Event_Description}</td>
               <td className="py-3 px-4">
                 <button className="mr-2">
                   <FaEye />
                 </button>
                 <button className="mr-2" onClick={() => handleEdit(event)}>
                   <FaEdit color="blue" />
+                </button>
+                <button
+                  className="mr-2"
+                  onClick={() => handleAssignTickets(event)}
+                >
+                  <FaTicketAlt color="green" />
                 </button>
                 <button onClick={() => handleDelete(event.id)}>
                   <FaTrash color="red" />
