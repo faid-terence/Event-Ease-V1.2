@@ -50,10 +50,12 @@ export const payOrder = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
+    console.log(data);
     return data;
   }
 );
