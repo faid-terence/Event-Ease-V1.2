@@ -11,6 +11,7 @@ import MyTicketsPage from "../components/Tickets/MyTickets";
 import { Dashboard } from "../Pages/Dashboard";
 import { PaymentDashboard } from "../Pages/PaymentDashboard";
 import { PopUp } from "../components/POPUPS/PopUp";
+import MyOrdersPage from "../Pages/MyOrders";
 
 export const Router = () => {
   return (
@@ -26,6 +27,7 @@ export const Router = () => {
       <Route path="/create-event" element={<CreateEventPage />} />
       <Route path="/my-events" element={<Dashboard />} />
       <Route path="/payments" element={<PaymentDashboard />} />
+      <Route path="/orders" element={<MyOrdersPage />} />
       <Route
         path="/verify-email"
         element={
