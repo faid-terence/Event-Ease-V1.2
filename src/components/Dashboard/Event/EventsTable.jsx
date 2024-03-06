@@ -9,6 +9,7 @@ import { CreateTicketModal } from "../Tickets/CreateTicketModal";
 const EventTable = ({ events, openModal }) => {
   const dispatch = useDispatch();
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEventId, setSelectedEventId] = useState(null);
   const [isCreateTicketModalOpen, setCreateTicketModalOpen] = useState(false);
 
   const handleEdit = (event) => {
@@ -23,7 +24,8 @@ const EventTable = ({ events, openModal }) => {
     }, 2000);
   };
 
-  const handleAssignTickets = (event) => {
+  const handleAssignTickets = (eventId) => {
+    setSelectedEventId(eventId); 
     setCreateTicketModalOpen(true);
   };
 
@@ -62,7 +64,7 @@ const EventTable = ({ events, openModal }) => {
                 </button>
                 <button
                   className="mr-2"
-                  onClick={() => handleAssignTickets(event)}
+                  onClick={() => handleAssignTickets(event.id)} 
                 >
                   <FaTicketAlt color="green" />
                 </button>
@@ -85,6 +87,7 @@ const EventTable = ({ events, openModal }) => {
         <CreateTicketModal
           isOpen={isCreateTicketModalOpen}
           onClose={() => setCreateTicketModalOpen(false)}
+          eventId={selectedEventId}
         />
       )}
     </div>
