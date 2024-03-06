@@ -4,10 +4,12 @@ import { useDispatch } from "react-redux";
 import { organizerDeleteEvent } from "../../../features/Redux/organizer/organizerSlice";
 import { toast } from "react-toastify";
 import UpdateEventFormModal from "./UpdateEventFormModal";
+import { CreateTicketModal } from "../Tickets/CreateTicketModal";
 
 const EventTable = ({ events, openModal }) => {
   const dispatch = useDispatch();
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isCreateTicketModalOpen, setCreateTicketModalOpen] = useState(false);
 
   const handleEdit = (event) => {
     setSelectedEvent(event);
@@ -22,8 +24,7 @@ const EventTable = ({ events, openModal }) => {
   };
 
   const handleAssignTickets = (event) => {
-    // Implement logic to handle assigning tickets to the event
-    console.log("Assign tickets to event:", event);
+    setCreateTicketModalOpen(true);
   };
 
   return (
@@ -78,6 +79,12 @@ const EventTable = ({ events, openModal }) => {
           isOpen={true}
           onClose={() => setSelectedEvent(null)}
           eventData={selectedEvent}
+        />
+      )}
+      {isCreateTicketModalOpen && (
+        <CreateTicketModal
+          isOpen={isCreateTicketModalOpen}
+          onClose={() => setCreateTicketModalOpen(false)}
         />
       )}
     </div>
