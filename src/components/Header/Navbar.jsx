@@ -14,16 +14,12 @@ const navLinks = [
     display: "Events",
   },
   {
-    path: "/tickets",
-    display: "My Tickets",
+    path: "/create-event",
+    display: "Create Event",
   },
   {
     path: "/contact",
     display: "Contact Us",
-  },
-  {
-    path: "/orders",
-    display: "My Orders",
   },
 ];
 
@@ -53,19 +49,17 @@ export const Navbar = () => {
     setUser(null);
   };
 
-  // immediately logout user if token is expired
   useEffect(() => {
     if (user) {
       const token = localStorage.getItem("token");
       if (token === null) {
         handleLogout();
-        return; // Exit early to avoid further processing
+        return;
       }
       const tokenParts = token.split(".");
       if (tokenParts.length !== 3) {
-        // Handle invalid token format
         handleLogout();
-        return; // Exit early to avoid further processing
+        return;
       }
       const decodedToken = JSON.parse(atob(tokenParts[1]));
       const tokenExpiration = decodedToken.exp;
@@ -135,6 +129,17 @@ export const Navbar = () => {
                     </NavLink>
                   </li>
                 ))}
+                {/* Conditionally render My Orders link if user is logged in */}
+                {user && (
+                  <li>
+                    <NavLink
+                      to="/orders"
+                      className="text-white text-[16px] leading-7 font-[500] hover:ease-out"
+                    >
+                      My Orders
+                    </NavLink>
+                  </li>
+                )}
               </ul>
             </div>
             <div className="flex items-center gap-4">
@@ -158,7 +163,7 @@ export const Navbar = () => {
                         <BiSolidDashboard className="mr-2" /> Dashboard
                       </Link>
                       <Link
-                        to="/orders" // Link to the user's orders page
+                        to="/orders"
                         className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
                       >
                         <BiPackage className="mr-2" /> My Orders
