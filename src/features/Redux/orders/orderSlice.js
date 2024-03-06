@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchUserOrders = createAsyncThunk(
   "order/fetchUserOrders",
   async (userId, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:3000/orders`, {
+    const response = await fetch(`http://localhost:3000/order`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -20,9 +20,9 @@ export const fetchUserOrders = createAsyncThunk(
 const orderSlice = createSlice({
   name: "order",
   initialState: {
+    loading: false,
+    hasError: false,
     orders: [],
-    status: "idle",
-    error: null,
   },
   extraReducers: (builder) => {
     builder
@@ -39,6 +39,5 @@ const orderSlice = createSlice({
       });
   },
 });
-
 
 export default orderSlice.reducer;
