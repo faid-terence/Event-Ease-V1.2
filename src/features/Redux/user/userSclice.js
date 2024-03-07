@@ -48,6 +48,29 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const resetUserPassword = createAsyncThunk(
+  "user/resetUserPassword",
+  async (userCredentials) => {
+    const response = await fetch("http://localhost:3000/auth/reset-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userCredentials),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "Password reset failed due to an unknown error"
+      );
+    }
+
+    const data = await response.json();
+    return data;
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
