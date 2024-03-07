@@ -12,6 +12,7 @@ import { Dashboard } from "../Pages/Dashboard";
 import { PaymentDashboard } from "../Pages/PaymentDashboard";
 import { PopUp } from "../components/POPUPS/PopUp";
 import MyOrdersPage from "../Pages/MyOrders";
+import  ProtectedRoute  from "./ProtectedRoute";
 
 export const Router = () => {
   return (
@@ -25,7 +26,14 @@ export const Router = () => {
       <Route path="/auth/signin" element={<Login />} />
       <Route path="/auth/register" element={<SignUp />} />
       <Route path="/create-event" element={<CreateEventPage />} />
-      <Route path="/my-events" element={<Dashboard />} />
+      <Route
+        path="/my-events"
+        element={
+          <ProtectedRoute isAdmin={false}>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/payments" element={<PaymentDashboard />} />
       <Route path="/orders" element={<MyOrdersPage />} />
       <Route

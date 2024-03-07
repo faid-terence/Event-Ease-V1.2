@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUserOrders } from "../features/Redux/orders/orderSlice";
 import { payOrder } from "../features/Redux/orders/orderSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const MyOrdersPage = () => {
   const dispatch = useDispatch();
@@ -22,9 +23,10 @@ const MyOrdersPage = () => {
       // Redirect to the paymentUrl
       window.location.href = paymentUrl;
 
-      console.log("Payment initiated for order #" + orderId);
+      // console.log("Payment initiated for order #" + orderId);
     } catch (error) {
-      console.error("Error occurred while paying for order #" + orderId, error);
+      toast.error("Error occurred while paying for order #" + orderId);
+      // console.error("Error occurred while paying for order #" + orderId, error);
     }
   };
 
