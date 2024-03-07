@@ -12,7 +12,8 @@ import { Dashboard } from "../Pages/Dashboard";
 import { PaymentDashboard } from "../Pages/PaymentDashboard";
 import { PopUp } from "../components/POPUPS/PopUp";
 import MyOrdersPage from "../Pages/MyOrders";
-import  ProtectedRoute  from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
+import { ResetPassword } from "../Pages/ResetPassword";
 
 export const Router = () => {
   return (
@@ -25,6 +26,7 @@ export const Router = () => {
       <Route path="/contact" element={<Contact />} />
       <Route path="/auth/signin" element={<Login />} />
       <Route path="/auth/register" element={<SignUp />} />
+      <Route path="/auth/reset-password" element={<ResetPassword />} />
       <Route path="/create-event" element={<CreateEventPage />} />
       <Route
         path="/my-events"

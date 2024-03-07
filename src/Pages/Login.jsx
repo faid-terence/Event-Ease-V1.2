@@ -88,7 +88,7 @@ export const Login = () => {
           <p className="mt-5 text-textColor text-center">
             Forgot password?
             <Link
-              to="/auth/register"
+              to="/auth/reset-password"
               className="text-primaryColor font-medium ml-1"
             >
               Reset Password
