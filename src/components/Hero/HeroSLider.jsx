@@ -8,8 +8,10 @@ import image4 from "../../assets/images/dance3.jpg";
 import image2 from "../../assets/images/dance5.jpg";
 import image3 from "../../assets/images/dance6.jpg";
 import image1 from "../../assets/images/basket3.jpg";
-import image5 from "../../assets/images/praise.jpg";
-import image6 from "../../assets/images/simba.jpg";
+import image5 from "../../assets/images/dance20.jpg";
+import image6 from "../../assets/images/dance30.jpg";
+import image7 from "../../assets/images/dance26.jpg";
+import image8 from "../../assets/images/dance25.jpg";
 
 export const HeroSlider = () => {
   const settings = {
@@ -29,22 +31,22 @@ export const HeroSlider = () => {
       description: "Discover the best events. Sell and buy tickets seamlessly.",
     },
     {
-      image: image2,
+      image: image5,
       title: "Easy Ticketing Process",
       description: "Effortless ticketing process for all your favorite events.",
     },
     {
-      image: image3,
+      image: image8,
       title: "Download the App",
       description: "Get our app now for a seamless ticketing experience.",
     },
     {
-      image: image4,
+      image: image7,
       title: "Sell and Buy Tickets",
       description: "Discover the best events. Sell and buy tickets seamlessly.",
     },
     {
-      image: image5,
+      image: image6,
       title: "Easy Ticketing Process",
       description: "Effortless ticketing process for all your favorite events.",
     },

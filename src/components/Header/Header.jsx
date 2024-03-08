@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 import userImage from "../../assets/terence 1.png";
-import { BiSolidDashboard, BiLogOutCircle } from "react-icons/bi";
+import { BiSolidDashboard, BiLogOutCircle, BiPackage } from "react-icons/bi";
 
 const navLinks = [
   {
@@ -150,6 +150,12 @@ export const Header = () => {
                         className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
                       >
                         <BiSolidDashboard className="mr-2" /> Dashboard
+                      </Link>
+                      <Link
+                        to="/orders"
+                        className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
+                      >
+                        <BiPackage className="mr-2" /> My Orders
                       </Link>
                       <Link
                         to="/auth/signin"

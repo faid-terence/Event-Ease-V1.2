@@ -85,6 +85,15 @@ export const Login = () => {
               {loading ? <HashLoader size={35} color="#ffffff" /> : "Login"}
             </button>
           </div>
+          <p className="mt-5 text-textColor text-center">
+            Forgot password?
+            <Link
+              to="/auth/reset-password"
+              className="text-primaryColor font-medium ml-1"
+            >
+              Reset Password
+            </Link>
+          </p>
 
           <p className="mt-5 text-textColor text-center">
             Don't have an account?{" "}
