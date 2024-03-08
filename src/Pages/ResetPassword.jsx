@@ -59,7 +59,7 @@ export const ResetPassword = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 className="w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-primaryColor"
-              />
+              />  
             </div>
 
             <div className="mb-5">
