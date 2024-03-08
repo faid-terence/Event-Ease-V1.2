@@ -99,29 +99,25 @@ export const setNewPassword = createAsyncThunk(
   }
 );
 
-export const veifyEmail = createAsyncThunk(
-  "user/veifyEmail",
-  async (userCredentials) => {
-    const token = window.location.pathname.split("/")[3];
-    const response = await fetch(`http://localhost:3000/auth/verify/${token}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userCredentials),
-    });
+export const verifyEmail = createAsyncThunk("user/verifyEmail", async () => {
+  const token = window.location.pathname.split("/")[3];
+  const response = await fetch(`http://localhost:3000/auth/verify/${token}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.message || "Email verification failed due to an unknown error"
-      );
-    }
-
-    const data = await response.json();
-    return data;
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      errorData.message || "Email verification failed due to an unknown error"
+    );
   }
-);
+
+  const data = await response.json();
+  return data;
+});
 
 const userSlice = createSlice({
   name: "user",
@@ -163,6 +159,64 @@ const userSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.user = null;
+        state.hasErrors = true;
+        state.errorMessage = action.error.message;
+        toast.error(action.error.message);
+      });
+
+    builder
+      .addCase(resetUserPassword.pending, (state, action) => {
+        state.loading = true;
+        state.user = null;
+        state.hasErrors = false;
+      })
+      .addCase(resetUserPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.user = action.payload;
+      })
+      .addCase(resetUserPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.user = null;
+        state.hasErrors = true;
+        state.errorMessage = action.error.message;
+        toast.error(action.error.message);
+      });
+
+    builder
+      .addCase(setNewPassword.pending, (state, action) => {
+        state.loading = true;
+        state.user = null;
+        state.hasErrors = false;
+      })
+      .addCase(setNewPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.user = action.payload;
+      })
+      .addCase(setNewPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.user = null;
+        state.hasErrors = true;
+        state.errorMessage = action.error.message;
+        toast.error(action.error.message);
+      });
+
+    builder
+
+      .addCase(verifyEmail.pending, (state, action) => {
+        state.loading = true;
+        state.user = null;
+        state.hasErrors = false;
+      })
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.user = action.payload;
+      })
+      .addCase(verifyEmail.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
         state.hasErrors = true;
