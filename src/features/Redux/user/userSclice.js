@@ -99,6 +99,30 @@ export const setNewPassword = createAsyncThunk(
   }
 );
 
+export const veifyEmail = createAsyncThunk(
+  "user/veifyEmail",
+  async (userCredentials) => {
+    const token = window.location.pathname.split("/")[3];
+    const response = await fetch(`http://localhost:3000/auth/verify/${token}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userCredentials),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "Email verification failed due to an unknown error"
+      );
+    }
+
+    const data = await response.json();
+    return data;
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
