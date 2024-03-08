@@ -14,6 +14,7 @@ import { PopUp } from "../components/POPUPS/PopUp";
 import MyOrdersPage from "../Pages/MyOrders";
 import ProtectedRoute from "./ProtectedRoute";
 import { ResetPassword } from "../Pages/ResetPassword";
+import { SetNewPassword } from "../Pages/SetNewPassword";
 
 export const Router = () => {
   return (
@@ -27,6 +28,10 @@ export const Router = () => {
       <Route path="/auth/signin" element={<Login />} />
       <Route path="/auth/register" element={<SignUp />} />
       <Route path="/auth/reset-password" element={<ResetPassword />} />
+      <Route
+        path="/auth/set-new-password/:token"
+        element={<SetNewPassword />}
+      />
       <Route path="/create-event" element={<CreateEventPage />} />
       <Route
         path="/my-events"

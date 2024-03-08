@@ -88,6 +88,7 @@ export const setNewPassword = createAsyncThunk(
 
     if (!response.ok) {
       const errorData = await response.json();
+      toast.error(errorData.message);
       throw new Error(
         errorData.message || "Password reset failed due to an unknown error"
       );
