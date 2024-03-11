@@ -119,6 +119,29 @@ export const verifyEmail = createAsyncThunk("user/verifyEmail", async () => {
   return data;
 });
 
+export const userSubscription = createAsyncThunk(
+  "user/userSubscription",
+  async (userCredentials) => {
+    const response = await fetch("http://localhost:3000/subscribe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userCredentials),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "Subscription failed due to an unknown error"
+      );
+    }
+
+    const data = await response.json();
+    return data;
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -217,6 +240,25 @@ const userSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(verifyEmail.rejected, (state, action) => {
+        state.loading = false;
+        state.user = null;
+        state.hasErrors = true;
+        state.errorMessage = action.error.message;
+        toast.error(action.error.message);
+      });
+
+    builder
+      .addCase(userSubscription.pending, (state, action) => {
+        state.loading = true;
+        state.user = null;
+        state.hasErrors = false;
+      })
+      .addCase(userSubscription.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.user = action.payload;
+      })
+      .addCase(userSubscription.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
         state.hasErrors = true;

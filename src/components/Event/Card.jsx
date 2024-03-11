@@ -15,7 +15,11 @@ export const EventCard = ({
   return (
     <div className="item-container">
       <div className="img-container">
-        <img src={eventImage} alt="Event image" />
+        <img
+          src={eventImage}
+          alt="Event image"
+          style={{ height: "500px", objectFit: "cover" }}
+        />
       </div>
       <div className="body-container">
         <div className="overlay"></div>
@@ -24,7 +28,7 @@ export const EventCard = ({
           <p className="title">{title}</p>
           <div className="separator"></div>
           <p className="info">{location}</p>
-          <p className="price">{price}</p>
+          <p className="price">{venue}</p>
 
           <div className="additional-info">
             <p className="info">

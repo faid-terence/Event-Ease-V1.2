@@ -49,9 +49,14 @@
   padding: 8px;
 }
 
-.title,
-.price {
+.title {
   font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 12px;
+}
+.price {
+  font-size: 1.2em;
   font-weight: bold;
   letter-spacing: 1px;
   margin: 12px;
