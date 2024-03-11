@@ -31,12 +31,12 @@ export const HeroSlider = () => {
       description: "Discover the best events. Sell and buy tickets seamlessly.",
     },
     {
-      image: image5,
+      image: image8,
       title: "Easy Ticketing Process",
       description: "Effortless ticketing process for all your favorite events.",
     },
     {
-      image: image8,
+      image: image1,
       title: "Download the App",
       description: "Get our app now for a seamless ticketing experience.",
     },
@@ -46,7 +46,7 @@ export const HeroSlider = () => {
       description: "Discover the best events. Sell and buy tickets seamlessly.",
     },
     {
-      image: image6,
+      image: image8,
       title: "Easy Ticketing Process",
       description: "Effortless ticketing process for all your favorite events.",
     },
