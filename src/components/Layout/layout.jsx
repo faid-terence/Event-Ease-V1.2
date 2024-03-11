@@ -10,18 +10,18 @@ export const Layout = () => {
   const isHeaderVisible =
     location.pathname === "/" || location.pathname === "/home";
 
-  // Exclude header and navbar on /dashboard route
   const excludeHeaderAndNavbar =
     location.pathname === "/my-events" ||
     location.pathname === "/payments" ||
-    location.pathname === "/verify-email";
+    location.pathname === "/verify-email" ||
+    location.pathname === "/auth/email-verified/:verifcationToken";
 
-  // Exclude footer on /dashboard route
   const excludeFooter =
     location.pathname === "/dashboard" ||
     location.pathname === "/payments" ||
     location.pathname === "/verify-email" ||
-    location.pathname === "/my-events";
+    location.pathname === "/my-events" ||
+    location.pathname === "/auth/email-verified/:verifcationToken";
 
   return (
     <>
