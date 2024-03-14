@@ -31,7 +31,6 @@ export const ResetPassword = () => {
         }, 4000);
       }
     } catch (error) {
-      console.error("Password reset:", error);
       let errorMessage = "An error occurred during resetting password.";
 
       toast.error(errorMessage);
