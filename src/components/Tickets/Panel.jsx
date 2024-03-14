@@ -28,32 +28,44 @@ export const Panel = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [quantity, setQuantity] = useState(1);
   const handleBuyTickets = () => {
-    if (selectedCategory && quantity > 0 && tickets && tickets.length > 0) {
-      const selectedTicket = tickets.find(
-        (ticket) => ticket.category === selectedCategory
-      );
-      if (selectedTicket) {
-        const order = {
-          ticket: selectedTicket.id,
-          quantity,
-        };
-        dispatch(createOrder(order));
-
-        toast.success("Order created successfully!", { autoClose: 2000 });
-        setTimeout(() => {
-          navigate("/orders");
-        }, 2000);
-
-        // console.log("Selected Ticket ID:", selectedTicket.id);
-        // console.log("Selected Category:", selectedCategory);
-        // console.log("Quantity:", quantity);
-      } else {
-        toast.error("Selected category is invalid.");
-      }
-    } else {
-      toast.error("Please select a category and enter a valid quantity.");
+    if (
+      !selectedCategory ||
+      quantity <= 0 ||
+      !tickets ||
+      tickets.length === 0
+    ) {
+      toast.error("Please select a valid ticket category and quantity.");
+      return;
     }
+
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login to purchase tickets!");
+      return;
+    }
+
+    const selectedTicket = tickets.find(
+      (ticket) => ticket.category === selectedCategory
+    );
+
+    if (!selectedTicket) {
+      toast.error("Selected category is invalid.");
+      return;
+    }
+
+    const order = {
+      ticket: selectedTicket.id,
+      quantity,
+    };
+
+    dispatch(createOrder(order));
+    toast.success("Order created successfully!", { autoClose: 2000 });
+    setTimeout(() => {
+      navigate("/orders");
+    }, 2000);
   };
+
   return (
     <div className="shadow-panelShadow p-3 lg:p-5 rounded-md">
       <div className="flex items-center justify-between">
