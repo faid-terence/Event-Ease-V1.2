@@ -1,7 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import contactImage from "../assets/contact.svg";
+import { useDispatch } from "react-redux";
+import { sendMessage } from "../features/Redux/messages/message-slice";
+import { toast } from "react-toastify";
 
 export const Contact = () => {
+  const [formData, setFormData] = useState({
+    userEmail: "",
+    messageSubject: "",
+    message: "",
+  });
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Construct message object
+    let message = {
+      userEmail: formData.userEmail,
+      messageSubject: formData.messageSubject,
+      message: formData.message,
+    };
+
+    // Dispatch action and handle result
+    dispatch(sendMessage(message)).then((result) => {
+      if (result.payload) {
+        // Message successfully sent
+        const successMessage = result.payload.message;
+        toast.success(successMessage); // Display success toast
+        // Reset form fields
+        setFormData({
+          userEmail: "",
+          messageSubject: "",
+          message: "",
+        });
+      } else {
+        // Handle error if payload is not available
+        toast.error("Failed to send message");
+      }
+    });
+  };
+
   return (
     <section className="flex flex-wrap items-center justify-center">
       <div className="container flex flex-wrap items-center">
@@ -16,15 +59,17 @@ export const Contact = () => {
             Got a technical issue? Want to send feedback about a beta feature?
             Let us know.
           </p>
-          <form action="#" className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-8">
             <div>
               <label htmlFor="email" className="form__label">
                 Your Email
               </label>
               <input
                 type="email"
-                name=""
+                name="userEmail"
                 id="email"
+                value={formData.userEmail}
+                onChange={handleChange}
                 className="form__input mt-1"
                 placeholder="youremail@gmail.com"
               />
@@ -35,8 +80,10 @@ export const Contact = () => {
               </label>
               <input
                 type="text"
-                name=""
+                name="messageSubject"
                 id="subject"
+                value={formData.messageSubject}
+                onChange={handleChange}
                 className="form__input mt-1"
                 placeholder="Let us know how we can help you"
               />
@@ -47,8 +94,10 @@ export const Contact = () => {
               </label>
               <textarea
                 rows="6"
-                name=""
+                name="message"
                 id="message"
+                value={formData.message}
+                onChange={handleChange}
                 className="form__input mt-1"
                 placeholder="Leave a Comment ............"
               />

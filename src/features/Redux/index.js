@@ -13,6 +13,6 @@ export const store = configureStore({
     organizer: organizerReducer,
     ticket: ticketReducer,
     order: orderReducer,
-    messages: messageSlice,
+    messages: messageRuducer,
   },
 });

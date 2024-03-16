@@ -4,15 +4,10 @@ export const sendMessage = createAsyncThunk(
   "message/sendMessage",
   async (message, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("Token not found");
-      }
       const response = await fetch("http://localhost:3000/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(message),
       });
