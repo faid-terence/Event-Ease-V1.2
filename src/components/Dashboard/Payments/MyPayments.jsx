@@ -9,16 +9,9 @@ export const MyPayments = () => {
   const { payment: payments, loading, error } = paymentState || {};
 
   useEffect(() => {
-    console.log("Dispatching getAllPayments");
     dispatch(getAllPayments());
   }, [dispatch]);
-
-  console.log("loading:", loading);
-  console.log("error:", error);
-  console.log("payments:", payments);
-
   const paymentsDetails = payments.data;
-  console.log("paymentsDetails:", paymentsDetails);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
