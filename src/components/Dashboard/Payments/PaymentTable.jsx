@@ -15,7 +15,7 @@ const PaymentTable = ({ payments, openModal }) => {
           <tr className="bg-[#EAEAEA]">
             <th className="py-3 px-4 text-left">Payment ID</th>
             <th className="py-3 px-4 text-left">Amount</th>
-            <th className="py-3 px-4 text-left">Date</th>
+            <th className="py-3 px-4 text-left">Payment Method</th>
             <th className="py-3 px-4 text-left">Status</th>
             <th className="py-3 px-4 text-left">Action</th>
           </tr>
@@ -27,8 +27,8 @@ const PaymentTable = ({ payments, openModal }) => {
               className="border-b border-gray-300 hover:bg-gray-100 transition-all duration-200"
             >
               <td className="py-3 px-4">{payment.id}</td>
-              <td className="py-3 px-4">{payment.amount}</td>
-              <td className="py-3 px-4">{payment.date}</td>
+              <td className="py-3 px-4">{payment.amount_received}</td>
+              <td className="py-3 px-4">{payment.payment_method_types}</td>
               <td className="py-3 px-4">{payment.status}</td>
               <td className="py-3 px-4">
                 <button className="mr-2">
