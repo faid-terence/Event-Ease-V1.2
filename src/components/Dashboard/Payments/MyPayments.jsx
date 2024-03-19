@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPayments } from "../../../features/Redux/Payments/payment-slice";
 import PaymentTable from "./PaymentTable";
 
-const paymentsData = [
-  { id: 1, amount: 100, date: "2024-02-20", status: "Paid" },
-  { id: 2, amount: 50, date: "2024-03-05", status: "Pending" },
-  { id: 3, amount: 200, date: "2024-03-15", status: "Paid" },
-];
-
 export const MyPayments = () => {
+  const dispatch = useDispatch();
+  const paymentState = useSelector((state) => state.payment);
+  const { payment: payments, loading, error } = paymentState || {};
+
+  useEffect(() => {
+    console.log("Dispatching getAllPayments");
+    dispatch(getAllPayments());
+  }, [dispatch]);
+
+  console.log("loading:", loading);
+  console.log("error:", error);
+  console.log("payments:", payments);
+
+  const paymentsDetails = payments.data;
+  console.log("paymentsDetails:", paymentsDetails);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <>
       <div className="max-w-[570px] mt-[100px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
@@ -20,8 +35,9 @@ export const MyPayments = () => {
           Search
         </button>
       </div>
-
-      <PaymentTable payments={paymentsData} />
+      {paymentsDetails && paymentsDetails.length > 0 && (
+        <PaymentTable payments={paymentsDetails} />
+      )}
     </>
   );
 };
