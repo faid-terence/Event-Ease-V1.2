@@ -16,6 +16,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { ResetPassword } from "../Pages/ResetPassword";
 import { SetNewPassword } from "../Pages/SetNewPassword";
 import { EmailVerified } from "../Pages/EmailVerified";
+import { MyTickets } from "../components/Dashboard/Tickets/MyTickets";
 
 export const Router = () => {
   return (
@@ -57,6 +58,7 @@ export const Router = () => {
           />
         }
       />
+      <Route path="/dahboard-tickets" element={<MyTickets />} />
     </Routes>
   );
 };
