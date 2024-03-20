@@ -35,6 +35,12 @@ const Aside = () => {
               My Profile
             </Link>
           </li>
+          <li className="mt-[40px]">
+            <Link to="/dahboard-tickets" className="block py-2 px-4">
+              <FaUser className="mr-2" />
+              My Tickets
+            </Link>
+          </li>
         </ul>
       </div>
     </aside>

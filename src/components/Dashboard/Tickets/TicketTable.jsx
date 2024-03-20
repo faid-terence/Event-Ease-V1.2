@@ -1,6 +1,6 @@
 import React from "react";
 
-export const TicketTable = () => {
+export const TicketTable = ({ tickets, openModal }) => {
   return (
     <div className="overflow-x-auto px-10 mt-[150px]">
       <div className="flex justify-between items-center mb-4">
@@ -20,50 +20,38 @@ export const TicketTable = () => {
           </tr>
         </thead>
         <tbody>
-          {tickets.map((ticket) => (
-            <tr
-              key={ticket.id}
-              className="border-b border-gray-300 hover:bg-gray-100 transition-all duration-200"
-            >
-              <td className="py-3 px-4">{ticket.id}</td>
-              <td className="py-3 px-4">{ticket.eventName}</td>
-              <td className="py-3 px-4">{ticket.price}</td>
-              <td className="py-3 px-4">{ticket.availability}</td>
-              <td className="py-3 px-4">
-                <button className="mr-2">
-                  <FaEye />
-                </button>
-                <button className="mr-2" onClick={() => handleEdit(ticket)}>
-                  <FaEdit color="blue" />
-                </button>
-                <button
-                  className="mr-2"
-                  onClick={() => handleAssignTicket(ticket.id)}
-                >
-                  <FaTicketAlt color="green" />
-                </button>
-                <button onClick={() => handleDelete(ticket.id)}>
-                  <FaTrash color="red" />
-                </button>
-              </td>
-            </tr>
-          ))}
+          {tickets &&
+            tickets.map((ticket) => (
+              <tr
+                key={ticket.id}
+                className="border-b border-gray-300 hover:bg-gray-100 transition-all duration-200"
+              >
+                <td className="py-3 px-4">{ticket.id}</td>
+                <td className="py-3 px-4">{ticket.eventName}</td>
+                <td className="py-3 px-4">{ticket.price}</td>
+                <td className="py-3 px-4">{ticket.availability}</td>
+                <td className="py-3 px-4">
+                  <button className="mr-2">
+                    <FaEye />
+                  </button>
+                  <button className="mr-2" onClick={() => handleEdit(ticket)}>
+                    <FaEdit color="blue" />
+                  </button>
+                  <button
+                    className="mr-2"
+                    onClick={() => handleAssignTicket(ticket.id)}
+                  >
+                    <FaTicketAlt color="green" />
+                  </button>
+                  <button onClick={() => handleDelete(ticket.id)}>
+                    <FaTrash color="red" />
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
-      {selectedTicket && (
-        <UpdateTicketFormModal
-          isOpen={true}
-          onClose={() => setSelectedTicket(null)}
-          ticketData={selectedTicket}
-        />
-      )}
-      {isCreateTicketModalOpen && (
-        <CreateTicketModal
-          isOpen={isCreateTicketModalOpen}
-          onClose={() => setCreateTicketModalOpen(false)}
-          eventId={selectedEventId}
-        />
-      )}
+      {/* Removed references to isCreateTicketModalOpen */}
     </div>
   );
 };
