@@ -20,6 +20,27 @@ export const fetchOrganizerEvent = createAsyncThunk(
   }
 );
 
+export const organizerFetchTickets = createAsyncThunk(
+  "organizer/organizerFetchTickets",
+  async (id, { rejectWithValue }) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return rejectWithValue("Token not found");
+    }
+    const response = await fetch(`http://localhost:3000/tickets/organizer`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      return rejectWithValue(error);
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const organizerUpdateEvent = createAsyncThunk(
   "organizer/organizerUpdateEvent",
   async (event, { rejectWithValue }) => {
