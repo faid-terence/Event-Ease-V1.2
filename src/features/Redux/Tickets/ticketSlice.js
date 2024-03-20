@@ -26,6 +26,15 @@ export const assignTicketToEvent = createAsyncThunk(
   }
 );
 
+export const fetchTickets = createAsyncThunk(
+  "ticket/fetchTickets",
+  async () => {
+    const response = await fetch("http://localhost:3000/tickets");
+    const data = await response.json();
+    return data;
+  }
+);
+
 const ticketSlice = createSlice({
   name: "ticket",
   initialState: {
@@ -43,6 +52,19 @@ const ticketSlice = createSlice({
       state.hasErrors = false;
     });
     builder.addCase(assignTicketToEvent.rejected, (state) => {
+      state.loading = false;
+      state.hasErrors = true;
+    });
+
+    builder.addCase(fetchTickets.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchTickets.fulfilled, (state, { payload }) => {
+      state.tickets = payload;
+      state.loading = false;
+      state.hasErrors = false;
+    });
+    builder.addCase(fetchTickets.rejected, (state) => {
       state.loading = false;
       state.hasErrors = true;
     });
