@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TicketTable } from "./TicketTable";
 
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTickets } from "../../../features/Redux/Tickets/ticketSlice";
+
 export const MyTickets = () => {
+  const dispatch = useDispatch();
+
+  const { tickets, loading, hasErrors } = useSelector((state) => state.ticket);
+
+  useEffect(() => {
+    dispatch(fetchTickets());
+  }, [dispatch]);
+
+  if (loading) return <div>Loading...</div>;
+  if (hasErrors) return <div>Error: {hasErrors}</div>;
+
   return (
     <>
       <div>
@@ -14,7 +28,7 @@ export const MyTickets = () => {
           Search
         </button>
       </div>
-      <TicketTable />
+      <TicketTable tickets={tickets} />
     </>
   );
 };
