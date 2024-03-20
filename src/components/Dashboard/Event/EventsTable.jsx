@@ -25,7 +25,7 @@ const EventTable = ({ events, openModal }) => {
   };
 
   const handleAssignTickets = (eventId) => {
-    setSelectedEventId(eventId); 
+    setSelectedEventId(eventId);
     setCreateTicketModalOpen(true);
   };
 
@@ -64,7 +64,7 @@ const EventTable = ({ events, openModal }) => {
                 </button>
                 <button
                   className="mr-2"
-                  onClick={() => handleAssignTickets(event.id)} 
+                  onClick={() => handleAssignTickets(event.id)}
                 >
                   <FaTicketAlt color="green" />
                 </button>

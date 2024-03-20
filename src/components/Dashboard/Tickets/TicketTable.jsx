@@ -1,4 +1,5 @@
 import React from "react";
+import { FaEye, FaEdit, FaTrash, FaTicketAlt } from "react-icons/fa";
 
 export const TicketTable = ({ tickets, openModal }) => {
   return (
@@ -13,7 +14,7 @@ export const TicketTable = ({ tickets, openModal }) => {
         <thead>
           <tr className="bg-[#EAEAEA]">
             <th className="py-3 px-4 text-left">Ticket ID</th>
-            <th className="py-3 px-4 text-left">Event Name</th>
+            <th className="py-3 px-4 text-left">Ticket Category</th>
             <th className="py-3 px-4 text-left">Ticket Price</th>
             <th className="py-3 px-4 text-left">Availability</th>
             <th className="py-3 px-4 text-left">Action</th>
@@ -27,9 +28,9 @@ export const TicketTable = ({ tickets, openModal }) => {
                 className="border-b border-gray-300 hover:bg-gray-100 transition-all duration-200"
               >
                 <td className="py-3 px-4">{ticket.id}</td>
-                <td className="py-3 px-4">{ticket.eventName}</td>
+                <td className="py-3 px-4">{ticket.category}</td>
                 <td className="py-3 px-4">{ticket.price}</td>
-                <td className="py-3 px-4">{ticket.availability}</td>
+                <td className="py-3 px-4">{ticket.availableQuantity}</td>
                 <td className="py-3 px-4">
                   <button className="mr-2">
                     <FaEye />
