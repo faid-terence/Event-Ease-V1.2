@@ -14,14 +14,16 @@ export const Layout = () => {
     location.pathname === "/my-events" ||
     location.pathname === "/payments" ||
     location.pathname === "/verify-email" ||
-    location.pathname === "/auth/email-verified/:verifcationToken";
+    location.pathname === "/auth/email-verified/:verifcationToken" ||
+    location.pathname === "/dahboard-tickets";
 
   const excludeFooter =
     location.pathname === "/dashboard" ||
     location.pathname === "/payments" ||
     location.pathname === "/verify-email" ||
     location.pathname === "/my-events" ||
-    location.pathname === "/auth/email-verified/:verifcationToken";
+    location.pathname === "/auth/email-verified/:verifcationToken" ||
+    location.pathname === "/dahboard-tickets";
 
   return (
     <>
