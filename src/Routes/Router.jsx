@@ -17,6 +17,7 @@ import { ResetPassword } from "../Pages/ResetPassword";
 import { SetNewPassword } from "../Pages/SetNewPassword";
 import { EmailVerified } from "../Pages/EmailVerified";
 import { MyTickets } from "../components/Dashboard/Tickets/MyTickets";
+import { TicketsDashboard } from "../Pages/TicketsDashboard";
 
 export const Router = () => {
   return (
@@ -58,7 +59,7 @@ export const Router = () => {
           />
         }
       />
-      <Route path="/dahboard-tickets" element={<MyTickets />} />
+      <Route path="/dahboard-tickets" element={<TicketsDashboard />} />
     </Routes>
   );
 };

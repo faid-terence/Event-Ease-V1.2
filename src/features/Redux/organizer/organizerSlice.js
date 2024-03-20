@@ -130,6 +130,39 @@ const organizerSlice = createSlice({
         state.loading = false;
         state.hasErrors = true;
       });
+
+    builder
+
+      .addCase(organizerUpdateEvent.pending, (state, action) => {
+        state.loading = true;
+        state.hasErrors = false;
+      })
+      .addCase(organizerUpdateEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.events = state.events.map((event) =>
+          event.id === action.payload.id ? action.payload : event
+        );
+      })
+      .addCase(organizerUpdateEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.hasErrors = true;
+      });
+
+    builder
+      .addCase(organizerFetchTickets.pending, (state, action) => {
+        state.loading = true;
+        state.hasErrors = false;
+      })
+      .addCase(organizerFetchTickets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.tickets = action.payload;
+      })
+      .addCase(organizerFetchTickets.rejected, (state, action) => {
+        state.loading = false;
+        state.hasErrors = true;
+      });
   },
 });
 
