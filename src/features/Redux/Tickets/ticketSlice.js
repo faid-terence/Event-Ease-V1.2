@@ -3,12 +3,17 @@ export const assignTicketToEvent = createAsyncThunk(
   "ticket/assignTicketToEvent",
   async (ticketDetails, { rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return rejectWithValue("Token not found");
+      }
       const response = await fetch(
         `http://localhost:3000/tickets/${ticketDetails.id}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(ticketDetails),
         }
@@ -34,7 +39,6 @@ export const fetchTickets = createAsyncThunk(
     return data;
   }
 );
-
 
 const ticketSlice = createSlice({
   name: "ticket",
