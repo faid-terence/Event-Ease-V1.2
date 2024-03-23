@@ -18,7 +18,7 @@ const MyOrdersPage = () => {
   const handlePay = async (orderId) => {
     try {
       const result = await dispatch(payOrder(orderId));
-      const paymentUrl = result.payload.paymentUrl; // Assuming this is the correct URL
+      const paymentUrl = result.payload.paymentUrl;
 
       // Redirect to the paymentUrl
       window.location.href = paymentUrl;
@@ -59,7 +59,7 @@ const MyOrdersPage = () => {
                 </div>
               ))}
             </div>
-            {order.status === "pending" && (
+            {!order.isPaid && (
               <button className="btn mt-4" onClick={() => handlePay(order.id)}>
                 Pay Now
               </button>

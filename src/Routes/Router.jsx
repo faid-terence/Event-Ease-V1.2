@@ -18,6 +18,7 @@ import { SetNewPassword } from "../Pages/SetNewPassword";
 import { EmailVerified } from "../Pages/EmailVerified";
 import { MyTickets } from "../components/Dashboard/Tickets/MyTickets";
 import { TicketsDashboard } from "../Pages/TicketsDashboard";
+import { MyPayments } from "../components/Dashboard/Payments/MyPayments";
 
 export const Router = () => {
   return (
@@ -43,12 +44,19 @@ export const Router = () => {
       <Route
         path="/my-events"
         element={
-          <ProtectedRoute isAdmin={false}>
+          <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         }
       />
-      <Route path="/payments" element={<PaymentDashboard />} />
+      <Route
+        path="/payments"
+        element={
+          <ProtectedRoute>
+            <PaymentDashboard />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/orders" element={<MyOrdersPage />} />
       <Route
         path="/verify-email"
