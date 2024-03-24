@@ -19,6 +19,9 @@ import { EmailVerified } from "../Pages/EmailVerified";
 import { MyTickets } from "../components/Dashboard/Tickets/MyTickets";
 import { TicketsDashboard } from "../Pages/TicketsDashboard";
 import { MyPayments } from "../components/Dashboard/Payments/MyPayments";
+import ProfileDashboard from "../Pages/ProfileDashboard";
+import UserProfile from "../Pages/userProfile";
+import { MyProfileDashboard } from "../Pages/MyProfileDashboard";
 
 export const Router = () => {
   return (
@@ -68,6 +71,8 @@ export const Router = () => {
         }
       />
       <Route path="/dahboard-tickets" element={<TicketsDashboard />} />
+      <Route path="/my-profile" element={<ProfileDashboard />} />
+      <Route path="/profile" element={<MyProfileDashboard />} />
     </Routes>
   );
 };
