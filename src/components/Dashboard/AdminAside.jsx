@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaHome, FaCreditCard, FaTicketAlt, FaUser } from "react-icons/fa";
+import { FaHome, FaTicketAlt, FaUser } from "react-icons/fa";
 
 const Aside = () => {
   return (
@@ -24,19 +24,19 @@ const Aside = () => {
             </Link>
           </li> */}
           <li className="mt-[40px]">
-            <Link to="/my-events" className="block py-2 px-4">
+            <Link to="/all-events" className="block py-2 px-4">
               <FaTicketAlt className="mr-2" />
               All Events
             </Link>
           </li>
           <li className="mt-[40px]">
-            <Link to="/profile" className="block py-2 px-4">
+            <Link to="/all-users" className="block py-2 px-4">
               <FaUser className="mr-2" />
               All Users
             </Link>
           </li>
           <li className="mt-[40px]">
-            <Link to="/dahboard-tickets" className="block py-2 px-4">
+            <Link to="/payments" className="block py-2 px-4">
               <FaUser className="mr-2" />
               All Payments
             </Link>
