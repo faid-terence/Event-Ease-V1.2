@@ -1,9 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export const getAllPayments = createAsyncThunk(
   "payment/getAllPayments",
   async () => {
-    const response = await fetch("http://localhost:3000/stripe/payments");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Not Authorized");
+    }
+    const response = await fetch("http://localhost:3000/stripe/payments", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -39,6 +48,5 @@ const paymentSlice = createSlice({
       });
   },
 });
-
 
 export default paymentSlice.reducer;
