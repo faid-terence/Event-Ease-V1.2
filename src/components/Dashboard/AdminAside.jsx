@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaHome, FaTicketAlt, FaUser } from "react-icons/fa";
 
-const Aside = () => {
+const AdminAside = () => {
   return (
     <aside className="bg-primaryColor text-white w-1/4 min-h-screen">
       <div className="p-10">
@@ -47,4 +47,4 @@ const Aside = () => {
   );
 };
 
-export default Aside;
+export default AdminAside;
