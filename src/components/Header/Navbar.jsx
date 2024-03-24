@@ -158,7 +158,7 @@ export const Navbar = () => {
                     <div className="absolute left-[-60px] mt-2 w-40 rounded bg-white shadow-md">
                       {user.isAdmin && (
                         <Link
-                          to="/admin-dashboard"
+                          to="/payments"
                           className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
                         >
                           <BiSolidDashboard className="mr-2" /> Admin
