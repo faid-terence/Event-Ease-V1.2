@@ -30,8 +30,8 @@ function getUser() {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       const userName = decodedToken.name;
       const profileImage = decodedToken.photo;
-
-      return { userName, profileImage };
+      const isAdmin = decodedToken.isAdmin || false; // Set isAdmin to false if not present in the token
+      return { userName, profileImage, isAdmin };
     } catch (error) {
       return null;
     }
@@ -156,6 +156,14 @@ export const Navbar = () => {
                   />
                   {isDropdownOpen && (
                     <div className="absolute left-[-60px] mt-2 w-40 rounded bg-white shadow-md">
+                      {user.isAdmin && (
+                        <Link
+                          to="/admin-dashboard"
+                          className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
+                        >
+                          <BiSolidDashboard className="mr-2" /> Admin
+                        </Link>
+                      )}
                       <Link
                         to="/my-events"
                         className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 transition duration-300"
