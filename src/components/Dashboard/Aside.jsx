@@ -12,17 +12,17 @@ const Aside = () => {
         </span>
         <ul>
           <li className="mt-[200px]">
-            <Link to="/" className="block py-2 px-4">
+            <Link to="/dashboard" className="block py-2 px-4">
               <FaHome className="mr-2" />
               Dashboard
             </Link>
           </li>
-          <li className="mt-[40px]">
+          {/* <li className="mt-[40px]">
             <Link to="/payments" className="block py-2 px-4">
               <FaCreditCard className="mr-2" />
               My Payments
             </Link>
-          </li>
+          </li> */}
           <li className="mt-[40px]">
             <Link to="/my-events" className="block py-2 px-4">
               <FaTicketAlt className="mr-2" />
@@ -30,7 +30,7 @@ const Aside = () => {
             </Link>
           </li>
           <li className="mt-[40px]">
-            <Link to="/my-profile" className="block py-2 px-4">
+            <Link to="/profile" className="block py-2 px-4">
               <FaUser className="mr-2" />
               My Profile
             </Link>
