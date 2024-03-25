@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import UserTable from "./UserTable";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { adminFetchAllUsers } from "../../../features/Redux/admin/admin-slice";
 
 const Users = () => {
   const dispatch = useDispatch();
 
   const { users, loading, error } = useSelector((state) => state.users);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(adminFetchAllUsers());
+  }, [dispatch]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -13,6 +21,8 @@ const Users = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  console.log(users);
   return (
     <>
       <div className="max-w-[570px] mt-[100px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
@@ -25,7 +35,7 @@ const Users = () => {
           Search
         </button>
       </div>
-      <UserTable />
+      <UserTable users={users} openModal={isModalOpen} />
     </>
   );
 };

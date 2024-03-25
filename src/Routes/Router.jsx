@@ -22,6 +22,7 @@ import { MyPayments } from "../components/Dashboard/Payments/MyPayments";
 import ProfileDashboard from "../Pages/ProfileDashboard";
 import UserProfile from "../Pages/userProfile";
 import { MyProfileDashboard } from "../Pages/MyProfileDashboard";
+import Users from "../components/Dashboard/Users/Users";
 
 export const Router = () => {
   return (
@@ -73,6 +74,7 @@ export const Router = () => {
       <Route path="/dahboard-tickets" element={<TicketsDashboard />} />
       <Route path="/my-profile" element={<ProfileDashboard />} />
       <Route path="/profile" element={<MyProfileDashboard />} />
+      <Route path="/all-users" element={<Users />} />
     </Routes>
   );
 };
