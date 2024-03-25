@@ -21,9 +21,9 @@ const UserTable = ({ users, openModal }) => {
     <div className="overflow-x-auto px-10 mt-[150px]">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">User List</h2>
-        <button onClick={openModal} className="btn">
+        {/* <button onClick={openModal} className="btn">
           Add New User
-        </button>
+        </button> */}
       </div>
       <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-md">
         <thead>
