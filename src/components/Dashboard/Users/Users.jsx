@@ -29,7 +29,7 @@ const Users = () => {
         <input
           type="search"
           className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder:text-textColor"
-          placeholder="Search for an event"
+          placeholder="Search for a user"
         />
         <button className="btn mt-0 rounded-[0px] rounded-r-md  ">
           Search
