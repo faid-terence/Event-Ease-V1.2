@@ -7,6 +7,7 @@ import ticketReducer from "./Tickets/ticketSlice";
 import orderReducer from "./orders/orderSlice";
 import messageRuducer from "./messages/message-slice";
 import paymentReducer from "./Payments/payment-slice";
+import usersReducer from "./admin/admin-slice";
 export const store = configureStore({
   reducer: {
     user: userReducer,
@@ -16,5 +17,6 @@ export const store = configureStore({
     order: orderReducer,
     messages: messageRuducer,
     payment: paymentReducer,
+    users: usersReducer,
   },
 });

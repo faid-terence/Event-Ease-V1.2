@@ -142,33 +142,6 @@ export const userSubscription = createAsyncThunk(
   }
 );
 
-export const adminFetchAllUsers = createAsyncThunk(
-  "user/adminFetchAllUsers",
-  async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("Unauthorized access");
-    }
-    const response = await fetch("http://localhost:3000/users", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.message || "Fetching users failed due to an unknown error"
-      );
-    }
-
-    const data = await response.json();
-    return data;
-  }
-);
-
 const userSlice = createSlice({
   name: "user",
   initialState: {

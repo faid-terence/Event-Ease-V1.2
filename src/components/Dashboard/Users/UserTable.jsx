@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { deleteUser } from "../../../features/Redux/users/userSlice";
 import { toast } from "react-toastify";
 // import UpdateUserFormModal from "./UpdateUserFormModal";
 
@@ -31,7 +30,7 @@ const UserTable = ({ users, openModal }) => {
           <tr className="bg-[#EAEAEA]">
             <th className="py-3 px-4 text-left">Username</th>
             <th className="py-3 px-4 text-left">Email</th>
-            <th className="py-3 px-4 text-left">Role</th>
+            <th className="py-3 px-4 text-left">PhoneNumber</th>
             <th className="py-3 px-4 text-left">Action</th>
           </tr>
         </thead>
@@ -41,9 +40,9 @@ const UserTable = ({ users, openModal }) => {
               key={user.id}
               className="border-b border-gray-300 hover:bg-gray-100 transition-all duration-200"
             >
-              <td className="py-3 px-4">{user.username}</td>
+              <td className="py-3 px-4">{user.fullNames}</td>
               <td className="py-3 px-4">{user.email}</td>
-              <td className="py-3 px-4">{user.role}</td>
+              <td className="py-3 px-4">{user.phoneNumber}</td>
               <td className="py-3 px-4">
                 <button className="mr-2">
                   <FaEye />
