@@ -1,7 +1,8 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import EventTable from "./EventsTable";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents } from "../../../features/Redux/events/eventSlice";
+import { adminFetchEvents } from "../../../features/Redux/events/eventSlice";
 
 export const AllEvents = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ export const AllEvents = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchEvents());
+    dispatch(adminFetchEvents());
   }, [dispatch]);
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,7 +22,6 @@ export const AllEvents = () => {
     setIsModalOpen(false);
   };
 
-  console.log(events);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 

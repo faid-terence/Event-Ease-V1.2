@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 export const fetchEvents = createAsyncThunk("event/fetchEvents", async () => {
   const response = await fetch("http://localhost:3000/events");
   if (!response.ok) {
@@ -8,11 +9,31 @@ export const fetchEvents = createAsyncThunk("event/fetchEvents", async () => {
   return data;
 });
 
+export const adminFetchEvents = createAsyncThunk(
+  "event/adminFetchEvents",
+  async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("You are not authorized to view this page");
+    }
+    const response = await fetch("http://localhost:3000/events/admin-events", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  }
+);
+
 export const createEvent = createAsyncThunk(
   "event/createEvent",
   async (event, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token"); 
+      const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("Token not found");
       }
@@ -21,7 +42,7 @@ export const createEvent = createAsyncThunk(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(event),
       });
@@ -134,6 +155,23 @@ const eventSlice = createSlice({
         state.events = [action.payload];
       })
       .addCase(createEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.events = [];
+        state.hasErrors = true;
+      });
+
+    builder
+      .addCase(adminFetchEvents.pending, (state, action) => {
+        state.loading = true;
+        state.events = [];
+        state.hasErrors = false;
+      })
+      .addCase(adminFetchEvents.fulfilled, (state, action) => {
+        state.loading = false;
+        state.hasErrors = false;
+        state.events = action.payload;
+      })
+      .addCase(adminFetchEvents.rejected, (state, action) => {
         state.loading = false;
         state.events = [];
         state.hasErrors = true;
