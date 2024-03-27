@@ -17,7 +17,8 @@ export const Layout = () => {
     location.pathname === "/auth/email-verified/:verifcationToken" ||
     location.pathname === "/dahboard-tickets" ||
     location.pathname === "/profile" ||
-    location.pathname === "/all-users";
+    location.pathname === "/all-users" ||
+    location.pathname === "/all-events";
 
   const excludeFooter =
     location.pathname === "/dashboard" ||
@@ -27,7 +28,8 @@ export const Layout = () => {
     location.pathname === "/auth/email-verified/:verifcationToken" ||
     location.pathname === "/dahboard-tickets" ||
     location.pathname === "/profile" ||
-    location.pathname === "/all-users";
+    location.pathname === "/all-users" ||
+    location.pathname === "/all-events";
 
   return (
     <>
