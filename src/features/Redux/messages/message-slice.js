@@ -1,13 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export const fetchMessages = createAsyncThunk(
   "message/fetchMessages",
   async (_, { rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("You are not authenticated");
+      }
       const response = await fetch("http://localhost:3000/messages");
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to fetch messages");
+        toast.error(errorData.message || "Failed to fetch messages");
       }
       const data = await response.json();
       return data;
