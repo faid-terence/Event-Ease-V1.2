@@ -25,6 +25,7 @@ import { MyProfileDashboard } from "../Pages/MyProfileDashboard";
 import Users from "../components/Dashboard/Users/Users";
 import { UsersDashboard } from "../Pages/UsersDashboard";
 import { AllEvents } from "../components/Dashboard/Event/AllEvents";
+import { AdminAllEvents } from "../Pages/AdminAllEvents";
 
 export const Router = () => {
   return (
@@ -77,7 +78,7 @@ export const Router = () => {
       <Route path="/my-profile" element={<ProfileDashboard />} />
       <Route path="/profile" element={<MyProfileDashboard />} />
       <Route path="/all-users" element={<UsersDashboard />} />
-      <Route path="/all-events" element={<AllEvents />} />
+      <Route path="/all-events" element={<AdminAllEvents />} />
     </Routes>
   );
 };

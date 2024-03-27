@@ -3,6 +3,7 @@ import EventTable from "./EventsTable";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents } from "../../../features/Redux/events/eventSlice";
 import { adminFetchEvents } from "../../../features/Redux/events/eventSlice";
+import { AdminEventTable } from "./AdminEventTable";
 
 export const AllEvents = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export const AllEvents = () => {
 
   return (
     <>
-      <div>
+      <div className="max-w-[570px] mt-[100px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
         <input
           type="search"
           className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder:text-textColor"
@@ -38,7 +39,7 @@ export const AllEvents = () => {
         </button>
       </div>
 
-      <EventTable events={events} openModal={openModal} />
+      <AdminEventTable events={events} openModal={openModal} />
     </>
   );
 };
