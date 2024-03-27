@@ -1,4 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+
+export const fetchMessages = createAsyncThunk(
+  "message/fetchMessages",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("You are not authenticated");
+      }
+      const response = await fetch("http://localhost:3000/messages");
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(errorData.message || "Failed to fetch messages");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const sendMessage = createAsyncThunk(
   "message/sendMessage",
@@ -41,6 +63,19 @@ const messageSlice = createSlice({
       state.error = null;
     });
     builder.addCase(sendMessage.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+
+    builder.addCase(fetchMessages.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchMessages.fulfilled, (state, action) => {
+      state.messages = action.payload;
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(fetchMessages.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

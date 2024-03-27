@@ -20,15 +20,14 @@ const MyOrdersPage = () => {
       const result = await dispatch(payOrder(orderId));
       const paymentUrl = result.payload.paymentUrl;
 
-      // Redirect to the paymentUrl
       window.location.href = paymentUrl;
-
-      // console.log("Payment initiated for order #" + orderId);
     } catch (error) {
       toast.error("Error occurred while paying for order #" + orderId);
-      // console.error("Error occurred while paying for order #" + orderId, error);
     }
   };
+
+  if (error) return <div>{error}</div>;
+  if (!orders.length) return <div className="text-center">No orders found</div>;
 
   return (
     <div className="container mx-auto px-4 py-8">
