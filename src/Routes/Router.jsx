@@ -16,15 +16,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import { ResetPassword } from "../Pages/ResetPassword";
 import { SetNewPassword } from "../Pages/SetNewPassword";
 import { EmailVerified } from "../Pages/EmailVerified";
-import { MyTickets } from "../components/Dashboard/Tickets/MyTickets";
 import { TicketsDashboard } from "../Pages/TicketsDashboard";
-import { MyPayments } from "../components/Dashboard/Payments/MyPayments";
 import ProfileDashboard from "../Pages/ProfileDashboard";
 import UserProfile from "../Pages/userProfile";
-import { MyProfileDashboard } from "../Pages/MyProfileDashboard";
-import Users from "../components/Dashboard/Users/Users";
 import { UsersDashboard } from "../Pages/UsersDashboard";
-import { AllEvents } from "../components/Dashboard/Event/AllEvents";
 import { AdminAllEvents } from "../Pages/AdminAllEvents";
 
 export const Router = () => {
@@ -34,7 +29,14 @@ export const Router = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/events" element={<Event />} />
       <Route path="/events/:id" element={<EventDetails />} />
-      <Route path="/tickets" element={<MyTicketsPage />} />
+      <Route
+        path="/tickets"
+        element={
+          <ProtectedRoute>
+            <MyTicketsPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/contact" element={<Contact />} />
       <Route path="/auth/signin" element={<Login />} />
       <Route path="/auth/register" element={<SignUp />} />
@@ -47,7 +49,14 @@ export const Router = () => {
         path="/auth/set-new-password/:token"
         element={<SetNewPassword />}
       />
-      <Route path="/create-event" element={<CreateEventPage />} />
+      <Route
+        path="/create-event"
+        element={
+          <ProtectedRoute>
+            <CreateEventPage />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/my-events"
         element={
@@ -64,7 +73,14 @@ export const Router = () => {
           </ProtectedRoute>
         }
       />
-      <Route path="/orders" element={<MyOrdersPage />} />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <MyOrdersPage />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/verify-email"
         element={
@@ -74,11 +90,46 @@ export const Router = () => {
           />
         }
       />
-      <Route path="/dahboard-tickets" element={<TicketsDashboard />} />
-      <Route path="/my-profile" element={<ProfileDashboard />} />
-      <Route path="/profile" element={<MyProfileDashboard />} />
-      <Route path="/all-users" element={<UsersDashboard />} />
-      <Route path="/all-events" element={<AdminAllEvents />} />
+      <Route
+        path="/dahboard-tickets"
+        element={
+          <ProtectedRoute>
+            <TicketsDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/my-profile"
+        element={
+          <ProtectedRoute>
+            <ProfileDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/all-users"
+        element={
+          <ProtectedRoute>
+            <UsersDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/all-events"
+        element={
+          <ProtectedRoute>
+            <AdminAllEvents />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };

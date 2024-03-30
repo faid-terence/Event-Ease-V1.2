@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 export const adminFetchAllUsers = createAsyncThunk(
   "user/adminFetchAllUsers",
   async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      throw new Error("Unauthorized access");
+      toast.error("You are not authorized to view this page");
     }
     const response = await fetch("http://localhost:3000/user", {
       method: "GET",
