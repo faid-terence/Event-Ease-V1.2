@@ -1,0 +1,95 @@
+.about-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 950px;
+}
+.dark-background {
+  width: 100%;
+  height: 286px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #262626;
+}
+.number-box {
+  color: white;
+  font-size: 20px;
+  font-family: "Fraunces", sans-serif;
+  font-weight: 700;
+  word-wrap: break-word;
+  position: absolute;
+}
+
+.number-box.users {
+  width: 99px;
+  height: 25px;
+  left: 1284px;
+  top: 144px;
+}
+
+.number-box.events {
+  width: 75px;
+  height: 25px;
+  left: 906px;
+  top: 139px;
+}
+
+.number-box.tickets {
+  width: 75px;
+  height: 25px;
+  left: 1117px;
+  top: 139px;
+}
+
+.headline {
+  width: 631px;
+  height: 126px;
+  left: 139px;
+  top: 43px;
+  position: absolute;
+  color: white;
+  font-size: 36px;
+  font-family: "Fraunces", sans-serif;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.description-text {
+  width: 596px;
+  height: 61px;
+  left: 894px;
+  top: 34px;
+  position: absolute;
+  color: white;
+  font-size: 20px;
+  font-family: "Fraunces", sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+.subheadline {
+  width: 110px;
+  height: 29px;
+  position: absolute;
+  color: white;
+  font-size: 16px;
+  font-family: "Fraunces", sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+.subheadline.active-users {
+  left: 894px;
+  top: 179px;
+}
+
+.subheadline.global-events {
+  left: 1100px;
+  top: 180px;
+}
+
+.subheadline.tickets-sold {
+  left: 1279px;
+  top: 177px;
+}

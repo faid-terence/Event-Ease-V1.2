@@ -14,8 +14,8 @@ const navLinks = [
     display: "Events",
   },
   {
-    path: "/tickets",
-    display: "My Tickets",
+    path: "/create-event",
+    display: "Create Event",
   },
   {
     path: "/contact",

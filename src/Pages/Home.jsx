@@ -14,6 +14,7 @@ import { Testimonials } from "../components/Testimonials/Testimonials";
 import { SubScribe } from "../components/Subscribe/SubScribe";
 import { HeroSlider } from "../components/Hero/HeroSLider";
 import { PopUp } from "../components/POPUPS/PopUp";
+import { TickNetAbout } from "../components/About/TicknetAbout";
 
 export const Home = () => {
   return (
@@ -144,7 +145,7 @@ export const Home = () => {
 
       <About />
       <Services />
-      <Testimonials />
+      {/* <TickNetAbout /> */}
       <SubScribe />
     </>
   );
