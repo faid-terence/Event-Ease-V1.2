@@ -13,7 +13,21 @@ export const Event = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
+  if (events.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">
+            No Events Found
+          </h1>
+          <p className="text-gray-600 text-center">
+            It looks like there are no events scheduled at the moment. Please
+            check back later or try adjusting your search filters.
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <section>
