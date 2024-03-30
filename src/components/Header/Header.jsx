@@ -25,11 +25,13 @@ const navLinks = [
 
 function getUser() {
   const token = localStorage.getItem("token");
+  const defaultImage =
+    "http://res.cloudinary.com/faid-terence/image/upload/v1711803562/aiswa8jcv6rzztbnnly3.jpg";
   if (token) {
     try {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       const userName = decodedToken.name;
-      const profileImage = decodedToken.photo;
+      const profileImage = decodedToken.photo || defaultImage;
 
       return { userName, profileImage };
     } catch (error) {
