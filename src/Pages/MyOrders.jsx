@@ -15,6 +15,22 @@ const MyOrdersPage = () => {
   }, [dispatch]);
 
   if (loading) return <div>Loading...</div>;
+  if (orders.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">
+            No Orders Found
+          </h1>
+          <p className="text-gray-600 text-center">
+            It looks like you haven't placed any orders yet. Please check back
+            later or try purchasing some tickets.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const handlePay = async (orderId) => {
     try {
       const result = await dispatch(payOrder(orderId));
