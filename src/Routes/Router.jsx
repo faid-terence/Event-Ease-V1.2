@@ -21,6 +21,7 @@ import ProfileDashboard from "../Pages/ProfileDashboard";
 import UserProfile from "../Pages/userProfile";
 import { UsersDashboard } from "../Pages/UsersDashboard";
 import { AdminAllEvents } from "../Pages/AdminAllEvents";
+import ProtectAdminRoutes from "./ProtectAdminRoutes";
 
 export const Router = () => {
   return (
@@ -68,9 +69,9 @@ export const Router = () => {
       <Route
         path="/payments"
         element={
-          <ProtectedRoute>
+          <ProtectAdminRoutes>
             <PaymentDashboard />
-          </ProtectedRoute>
+          </ProtectAdminRoutes>
         }
       />
       <Route
@@ -117,17 +118,17 @@ export const Router = () => {
       <Route
         path="/all-users"
         element={
-          <ProtectedRoute>
+          <ProtectAdminRoutes>
             <UsersDashboard />
-          </ProtectedRoute>
+          </ProtectAdminRoutes>
         }
       />
       <Route
         path="/all-events"
         element={
-          <ProtectedRoute>
+          <ProtectAdminRoutes>
             <AdminAllEvents />
-          </ProtectedRoute>
+          </ProtectAdminRoutes>
         }
       />
     </Routes>

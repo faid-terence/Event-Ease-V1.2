@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectAdminRoutes = ({ children }) => {
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem("token");
 
@@ -10,6 +10,12 @@ const ProtectedRoute = ({ children }) => {
     if (isAuthenticated) {
       const token = localStorage.getItem("token");
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const isAdmin = decodedToken.isAdmin;
+
+      if (!isAdmin) {
+        navigate("/");
+        toast.error("You are not authorized to access this page");
+      }
     } else {
       navigate("/auth/signin");
     }
@@ -22,4 +28,4 @@ const ProtectedRoute = ({ children }) => {
   return <>{children}</>;
 };
 
-export default ProtectedRoute;
+export default ProtectAdminRoutes;
