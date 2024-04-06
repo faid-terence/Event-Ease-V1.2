@@ -52,6 +52,26 @@ const CreateEventFormModal = ({ isOpen, onClose }) => {
     }
 
     try {
+      if (
+        !formData.EventName ||
+        !formData.EventDate ||
+        !formData.EventLocation ||
+        !formData.EventDescription ||
+        !formData.EventVenue
+      ) {
+        toast.error("Please fill in all fields.");
+        return;
+      }
+
+      if (!selectedFile) {
+        toast.error("Please upload an event image.");
+        return;
+      }
+
+      if (formData.EventDate < new Date().toISOString().split("T")[0]) {
+        toast.error("Event date cannot be in the past.");
+        return;
+      }
       const result = await dispatch(createEvent(formData));
 
       if (result.payload) {
