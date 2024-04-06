@@ -57,6 +57,26 @@ const CreateEventPage = () => {
     }
 
     try {
+      if (
+        !eventData.EventName ||
+        !eventData.EventDate ||
+        !eventData.EventDescription ||
+        !eventData.EventLocation ||
+        !eventData.EventVenue
+      ) {
+        toast.error("Please fill in all fields.");
+        return;
+      }
+
+      if (!selectedFile) {
+        toast.error("Please upload an event image.");
+        return;
+      }
+
+      if (eventData.EventDate < new Date().toISOString().split("T")[0]) {
+        toast.error("Event date cannot be in the past.");
+        return;
+      }
       const result = await dispatch(createEvent(eventData));
 
       if (result.payload) {
