@@ -34,7 +34,7 @@ export const Login = () => {
         setPassword("");
         setTimeout(() => {
           navigate("/");
-        }, 4000);
+        }, 1000);
       }
     } catch (error) {
       console.error("Login error:", error);
