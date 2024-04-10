@@ -14,7 +14,7 @@ export const Layout = () => {
     location.pathname === "/my-events" ||
     location.pathname === "/payments" ||
     location.pathname === "/verify-email" ||
-    location.pathname === "/auth/email-verified/:verifcationToken" ||
+    location.pathname.startsWith("/auth/email-verified/") ||
     location.pathname === "/dahboard-tickets" ||
     location.pathname === "/profile" ||
     location.pathname === "/all-users" ||
@@ -25,12 +25,11 @@ export const Layout = () => {
     location.pathname === "/payments" ||
     location.pathname === "/verify-email" ||
     location.pathname === "/my-events" ||
-    location.pathname === "/auth/email-verified/:verifcationToken" ||
+    location.pathname.startsWith("/auth/email-verified/") ||
     location.pathname === "/dahboard-tickets" ||
     location.pathname === "/profile" ||
     location.pathname === "/all-users" ||
     location.pathname === "/all-events";
-
   return (
     <>
       {!excludeHeaderAndNavbar && (isHeaderVisible ? <Header /> : <Navbar />)}

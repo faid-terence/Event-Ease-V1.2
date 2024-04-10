@@ -83,7 +83,7 @@ export const Router = () => {
         }
       />
       <Route
-        path="/verify-email"
+        path="/verify-email/:token"
         element={
           <PopUp
             title="Success"
