@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import "./Pop.css";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { verifyEmail } from "../../features/Redux/user/userSclice";
 
 export const PopUp = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(verifyEmail())
+      .unwrap()
+      .then(() => {
+        setTimeout(() => {
+          navigate("/auth/signin");
+        }, 3000);
+      });
+  }, [dispatch]);
+
   const { title, description } = props;
   return (
     <div className="popup pop-center">
