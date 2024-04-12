@@ -24,6 +24,8 @@ const DashboardHeader = () => {
   const [user, setUser] = useState(getUser());
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useNavigate();
+  const defaultImage =
+    "http://res.cloudinary.com/faid-terence/image/upload/v1711803562/aiswa8jcv6rzztbnnly3.jpg";
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -46,7 +48,7 @@ const DashboardHeader = () => {
             onMouseLeave={() => setShowLogout(false)}
           >
             <img
-              src={user?.profileImage}
+              src={defaultImage}
               alt="User Profile"
               className="w-8 h-8 rounded-full mr-2"
               onClick={handleLogout}

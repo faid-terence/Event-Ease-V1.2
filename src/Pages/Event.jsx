@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { EventCard } from "../components/Event/Card";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchEvents } from "../features/Redux/events/eventSlice";
@@ -6,14 +6,31 @@ import { fetchEvents } from "../features/Redux/events/eventSlice";
 export const Event = () => {
   const dispatch = useDispatch();
   const { events, loading, error } = useSelector((state) => state.event);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
+  useEffect(() => {
+    handleSearch();
+  }, [events, searchQuery]);
+
+  const handleSearch = () => {
+    const filtered = events.filter((event) =>
+      event.Event_Name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredEvents(filtered);
+  };
+
+  const handleInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (events.length === 0) {
+  if (filteredEvents.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
         <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-md">
@@ -21,13 +38,14 @@ export const Event = () => {
             No Events Found
           </h1>
           <p className="text-gray-600 text-center">
-            It looks like there are no events scheduled at the moment. Please
-            check back later or try adjusting your search filters.
+            It looks like there are no events matching your search. Please try a
+            different search term.
           </p>
         </div>
       </div>
     );
   }
+
   return (
     <>
       <section>
@@ -37,7 +55,9 @@ export const Event = () => {
             <input
               type="search"
               className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder:text-textColor"
-              placeholder="Search a Doctor"
+              placeholder="Search an event"
+              value={searchQuery}
+              onChange={handleInputChange}
             />
             <button className="btn mt-0 rounded-[0px] rounded-r-md">
               Search
@@ -47,7 +67,7 @@ export const Event = () => {
       </section>
       <section>
         <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {events.map((event) => (
+          {filteredEvents.map((event) => (
             <EventCard
               key={event.id}
               eventImage={event.Event_Image}
