@@ -72,13 +72,13 @@ export const Event = () => {
 
   return (
     <>
-      <section>
-        <div className="container text-center">
-          <h2 className="heading">Find Events</h2>
-          <div className="max-w-[870px] mt-[10px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
+      <section className="bg-gray-100 py-8">
+        <div className="container mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-4">Find Events</h2>
+          <div className="w-[800px] mx-auto bg-white rounded-md flex items-center justify-between shadow-md">
             <input
               type="search"
-              className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder:text-textColor"
+              className="py-2 px-4 bg-transparent w-full focus:outline-none placeholder-gray-400"
               placeholder="Search an event"
               value={searchQuery}
               onChange={handleInputChange}
@@ -92,7 +92,7 @@ export const Event = () => {
                 id="start-date"
                 value={format(startDate, "yyyy-MM-dd")}
                 onChange={handleStartDateChange}
-                className="py-2 px-4 bg-transparent focus:outline-none cursor-pointer"
+                className="py-2 px-4 bg-transparent focus:outline-none"
               />
               <label htmlFor="end-date" className="mx-2">
                 End Date:
@@ -102,14 +102,14 @@ export const Event = () => {
                 id="end-date"
                 value={format(endDate, "yyyy-MM-dd")}
                 onChange={handleEndDateChange}
-                className="py-2 px-4 bg-transparent focus:outline-none cursor-pointer"
+                className="py-2 px-4 bg-transparent focus:outline-none"
               />
             </div>
           </div>
         </div>
       </section>
-      <section>
-        <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+      <section className="py-8">
+        <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {filteredEvents.map((event) => (
             <EventCard
               key={event.id}
