@@ -8,8 +8,8 @@ export const Event = () => {
   const dispatch = useDispatch();
   const { events, loading, error } = useSelector((state) => state.event);
   const [searchQuery, setSearchQuery] = useState("");
-  const [startDate, setStartDate] = useState(subDays(new Date(), 7));
-  const [endDate, setEndDate] = useState(addDays(new Date(), 7));
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(addDays(new Date(), 180));
   const [filteredEvents, setFilteredEvents] = useState([]);
 
   useEffect(() => {
@@ -21,12 +21,22 @@ export const Event = () => {
   }, [events, searchQuery, startDate, endDate]);
 
   const handleSearch = () => {
-    const filtered = events.filter(
-      (event) =>
-        event.Event_Name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        new Date(event.Event_Date) >= startDate &&
-        new Date(event.Event_Date) <= endDate
-    );
+    let filtered = events;
+
+    if (searchQuery.trim() !== "") {
+      filtered = filtered.filter((event) =>
+        event.Event_Name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (startDate && endDate) {
+      filtered = filtered.filter(
+        (event) =>
+          new Date(event.Event_Date) >= startDate &&
+          new Date(event.Event_Date) <= endDate
+      );
+    }
+
     setFilteredEvents(filtered);
   };
 
@@ -65,7 +75,7 @@ export const Event = () => {
       <section>
         <div className="container text-center">
           <h2 className="heading">Find Events</h2>
-          <div className="max-w-[570px] mt-[10px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
+          <div className="max-w-[870px] mt-[10px] mx-auto bg-[#CCF4B3] rounded-md flex items-center justify-between">
             <input
               type="search"
               className="py-4 pl-4 pr-2 bg-transparent w-full focus:outline-none cursor-pointer placeholder:text-textColor"
