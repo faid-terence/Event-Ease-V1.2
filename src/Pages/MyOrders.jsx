@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserOrders } from "../features/Redux/orders/orderSlice";
 import { payOrder } from "../features/Redux/orders/orderSlice";
@@ -9,15 +9,17 @@ const MyOrdersPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orders, loading, error } = useSelector((state) => state.order);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
 
-  if (loading) return <div>Loading...</div>;
-  if (orders.length === 0) {
+  if (loading) return <div className="text-center">Loading...</div>;
+  if (error) return <div className="text-center">{error}</div>;
+  if (!orders.length)
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="flex items-center justify-center h-screen bg-gray-100">
         <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">
             No Orders Found
@@ -29,21 +31,26 @@ const MyOrdersPage = () => {
         </div>
       </div>
     );
-  }
 
   const handlePay = async (orderId) => {
     try {
       const result = await dispatch(payOrder(orderId));
       const paymentUrl = result.payload.paymentUrl;
-
       window.location.href = paymentUrl;
     } catch (error) {
       toast.error("Error occurred while paying for order #" + orderId);
     }
   };
 
-  if (error) return <div>{error}</div>;
-  if (!orders.length) return <div className="text-center">No orders found</div>;
+  const handleChoosePaymentMethod = (order) => {
+    setSelectedOrder(order);
+  };
+
+  const handlePaymentConfirmation = (paymentMethod) => {
+    if (selectedOrder) {
+      // Handle payment confirmation here
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -75,9 +82,46 @@ const MyOrdersPage = () => {
               ))}
             </div>
             {!order.isPaid && (
-              <button className="btn mt-4" onClick={() => handlePay(order.id)}>
-                Pay Now
-              </button>
+              <div>
+                <button
+                  className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 transition duration-300 ease-in-out"
+                  onClick={() => handleChoosePaymentMethod(order)}
+                >
+                  Pay Now
+                </button>
+                {selectedOrder === order && (
+                  <div className="mt-4">
+                    <p className="text-lg font-semibold mb-2">
+                      Choose Payment Method:
+                    </p>
+                    <div className="relative">
+                      <select
+                        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 pr-8 appearance-none focus:outline-none focus:ring-2 focus:ring-primaryColor focus:border-transparent"
+                        onChange={(e) =>
+                          handlePaymentConfirmation(e.target.value)
+                        }
+                      >
+                        <option value="">Select Payment Method</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="MTN">MTN</option>
+                        <option value="M-Pesa">M-Pesa</option>
+                      </select>
+                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                        <svg
+                          className="w-4 h-4 fill-current text-gray-500"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>
