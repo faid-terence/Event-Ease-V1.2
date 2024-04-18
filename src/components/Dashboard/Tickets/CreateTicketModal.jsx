@@ -3,10 +3,12 @@ import { FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { assignTicketToEvent } from "../../../features/Redux/Tickets/ticketSlice";
 import { toast } from "react-toastify";
+import { HashLoader } from "react-spinners";
 
 export const CreateTicketModal = ({ isOpen, onClose, eventId }) => {
+  const [loading, setLoading] = useState(false);
   const [ticketDetails, setTicketDetails] = useState({
-    id: eventId, 
+    id: eventId,
     category: "",
     price: "",
     availableQuantity: "",
@@ -20,6 +22,7 @@ export const CreateTicketModal = ({ isOpen, onClose, eventId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await dispatch(assignTicketToEvent(ticketDetails));
       if (result.payload) {
@@ -32,6 +35,8 @@ export const CreateTicketModal = ({ isOpen, onClose, eventId }) => {
     } catch (error) {
       console.error("Error creating ticket:", error);
       toast.error("Failed to create ticket");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,8 +86,15 @@ export const CreateTicketModal = ({ isOpen, onClose, eventId }) => {
             />
           </div>
           <div className="flex justify-end">
-            <button type="submit" className="btn">
-              Create Ticket
+            <button
+              type="submit"
+              className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3"
+            >
+              {loading ? (
+                <HashLoader size={35} color="#ffffff" />
+              ) : (
+                "Create Ticket"
+              )}
             </button>
           </div>
         </form>
