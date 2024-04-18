@@ -28,8 +28,6 @@ export const Login = () => {
       const result = await dispatch(loginUser(userCredentials));
 
       if (result.payload) {
-        const message = result.payload.message;
-        toast.success(message);
         setEmail("");
         setPassword("");
         setTimeout(() => {
