@@ -32,7 +32,7 @@ const MyOrdersPage = () => {
       </div>
     );
 
-  const handlePay = async (orderId) => {
+  const handlePaymentWithStripe = async (orderId) => {
     try {
       const result = await dispatch(payOrder(orderId));
       const paymentUrl = result.payload.paymentUrl;
@@ -48,7 +48,9 @@ const MyOrdersPage = () => {
 
   const handlePaymentConfirmation = (paymentMethod) => {
     if (selectedOrder) {
-      // Handle payment confirmation here
+      if (paymentMethod === "PayPal") {
+        handlePaymentWithStripe(selectedOrder.id);
+      }
     }
   };
 
