@@ -22,6 +22,7 @@ import UserProfile from "../Pages/userProfile";
 import { UsersDashboard } from "../Pages/UsersDashboard";
 import { AdminAllEvents } from "../Pages/AdminAllEvents";
 import ProtectAdminRoutes from "./ProtectAdminRoutes";
+import { SuccessfulPayment } from "../Pages/SuccessfulPayment";
 
 export const Router = () => {
   return (
@@ -92,7 +93,7 @@ export const Router = () => {
         }
       />
       <Route
-        path="/dahboard-tickets"
+        path="/dashboard-tickets"
         element={
           <ProtectedRoute>
             <TicketsDashboard />
@@ -131,6 +132,7 @@ export const Router = () => {
           </ProtectAdminRoutes>
         }
       />
+      <Route path="/payment-successful" element={<SuccessfulPayment />} />
     </Routes>
   );
 };
