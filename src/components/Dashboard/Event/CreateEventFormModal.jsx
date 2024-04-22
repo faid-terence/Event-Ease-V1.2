@@ -219,7 +219,7 @@ const CreateEventFormModal = ({ isOpen, onClose }) => {
                 className="bg-[#339657] text-white py-2 px-6 rounded-md focus:outline-none"
               >
                 {loading ? (
-                  <HashLoader color="white" size={35} />
+                  <HashLoader color="#ffffff" size={35} />
                 ) : (
                   "Create Event"
                 )}
