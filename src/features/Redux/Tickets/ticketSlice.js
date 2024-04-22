@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 export const assignTicketToEvent = createAsyncThunk(
   "ticket/assignTicketToEvent",
   async (ticketDetails, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        return rejectWithValue("Token not found");
+        throw new Error("Token not found");
       }
+
       const response = await fetch(
         `http://localhost:3000/tickets/${ticketDetails.id}`,
         {
@@ -20,12 +22,14 @@ export const assignTicketToEvent = createAsyncThunk(
       );
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "An error occurred");
       }
 
       const result = await response.json();
       return result;
     } catch (error) {
+      toast.error(error.message);
       return rejectWithValue(error.message);
     }
   }
