@@ -207,7 +207,12 @@ input[type="submit"]:hover {
   background: #0056b3;
 }
 
-
+.paypal-options {
+  background-image: url("../src/assets/images/cards.jpg");
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 20px; /* Adjust as needed */
+}
 
 @media only screen and (max-width: 768px) {
   .navigation {

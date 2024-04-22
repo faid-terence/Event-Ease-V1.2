@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createEvent } from "../../../features/Redux/events/eventSlice";
 import { toast } from "react-toastify";
+import { HashLoader } from "react-spinners";
 
 const CreateEventFormModal = ({ isOpen, onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,6 +17,7 @@ const CreateEventFormModal = ({ isOpen, onClose }) => {
     EventVenue: "",
     EventPhoto: selectedFile,
   });
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -43,6 +45,7 @@ const CreateEventFormModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const token = localStorage.getItem("token");
 
@@ -215,7 +218,11 @@ const CreateEventFormModal = ({ isOpen, onClose }) => {
                 type="submit"
                 className="bg-[#339657] text-white py-2 px-6 rounded-md focus:outline-none"
               >
-                Submit
+                {loading ? (
+                  <HashLoader color="white" size={35} />
+                ) : (
+                  "Create Event"
+                )}
               </button>
             </div>
           </form>

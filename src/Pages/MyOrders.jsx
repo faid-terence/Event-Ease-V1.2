@@ -4,6 +4,7 @@ import { fetchUserOrders } from "../features/Redux/orders/orderSlice";
 import { payOrder } from "../features/Redux/orders/orderSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import visaCardImage from "../assets/images/cards.jpg";
 
 const MyOrdersPage = () => {
   const dispatch = useDispatch();
@@ -104,7 +105,7 @@ const MyOrdersPage = () => {
                         }
                       >
                         <option value="">Select Payment Method</option>
-                        <option value="PayPal">PayPal</option>
+                        <option value="PayPal"></option>
                         <option value="MTN">MTN</option>
                         <option value="M-Pesa">M-Pesa</option>
                       </select>
