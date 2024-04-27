@@ -5,17 +5,66 @@ import { payOrder } from "../features/Redux/orders/orderSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import visaCardImage from "../assets/images/cards.jpg";
+import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
+
+function getUser() {
+  const token = localStorage.getItem("token");
+  const defaultImage =
+    "http://res.cloudinary.com/faid-terence/image/upload/v1711803562/aiswa8jcv6rzztbnnly3.jpg";
+  if (token) {
+    try {
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const userName = decodedToken.name;
+      const email = decodedToken.email;
+
+      return { userName, email };
+    } catch (error) {
+      return null;
+    }
+  } else {
+    return null;
+  }
+}
 
 const MyOrdersPage = () => {
+  const [user, setUser] = useState(getUser());
+
+  const name = user?.userName;
+  const email = user?.email;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orders, loading, error } = useSelector((state) => state.order);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
   useEffect(() => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
 
+  const config = {
+    public_key: "FLWPUBK_TEST-ac79c73c94c75d6dfe082f925a5e870b-X",
+    tx_ref: Date.now(),
+    amount: 100,
+    currency: "NGN",
+    payment_options: "card,mobilemoney,ussd",
+    customer: {
+      email,
+      phone_number: "078*********",
+      name,
+    },
+    customizations: {
+      description: "Your ultimate solution to online ticketing",
+      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    },
+  };
+  const fwConfig = {
+    ...config,
+    text: "Pay with Flutterwave!",
+    callback: (response) => {
+      console.log(response);
+      closePaymentModal(); // this will close the modal programmatically
+    },
+    onClose: () => {},
+  };
   if (loading) return <div className="text-center">Loading...</div>;
   if (error) return <div className="text-center">{error}</div>;
   if (!orders.length)
@@ -54,6 +103,16 @@ const MyOrdersPage = () => {
       }
     }
   };
+  const handlePay = async (orderId) => {
+    try {
+      const result = await dispatch(payOrder(orderId));
+      const paymentUrl = result.payload.paymentUrl;
+
+      window.location.href = paymentUrl;
+    } catch (error) {
+      toast.error("Error occurred while paying for order #" + orderId);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -85,46 +144,9 @@ const MyOrdersPage = () => {
               ))}
             </div>
             {!order.isPaid && (
-              <div>
-                <button
-                  className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3 transition duration-300 ease-in-out"
-                  onClick={() => handleChoosePaymentMethod(order)}
-                >
-                  Pay Now
-                </button>
-                {selectedOrder === order && (
-                  <div className="mt-4">
-                    <p className="text-lg font-semibold mb-2">
-                      Choose Payment Method:
-                    </p>
-                    <div className="relative">
-                      <select
-                        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 pr-8 appearance-none focus:outline-none focus:ring-2 focus:ring-primaryColor focus:border-transparent"
-                        onChange={(e) =>
-                          handlePaymentConfirmation(e.target.value)
-                        }
-                      >
-                        <option value="">Select Payment Method</option>
-                        <option value="PayPal"></option>
-                        <option value="MTN">MTN</option>
-                        <option value="M-Pesa">M-Pesa</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <svg
-                          className="w-4 h-4 fill-current text-gray-500"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <button className="btn mt-4">
+                <FlutterWaveButton {...fwConfig} />
+              </button>
             )}
           </div>
         </div>
