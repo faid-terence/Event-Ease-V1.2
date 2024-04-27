@@ -39,9 +39,10 @@ const MyOrdersPage = () => {
   useEffect(() => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
+  const flutterwavePublicKey = import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY;
 
   const config = {
-    public_key: "FLWPUBK_TEST-ac79c73c94c75d6dfe082f925a5e870b-X",
+    public_key: flutterwavePublicKey,
     tx_ref: Date.now(),
     amount: 100,
     currency: "NGN",
