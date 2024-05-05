@@ -28,6 +28,7 @@ function getUser() {
 
 const MyOrdersPage = () => {
   const [user, setUser] = useState(getUser());
+  const [selectedCurrency, setSelectedCurrency] = useState("RWF");
 
   const name = user?.userName;
   const email = user?.email;
@@ -47,7 +48,7 @@ const MyOrdersPage = () => {
       public_key: flutterwavePublicKey,
       tx_ref: Date.now(),
       amount: order.totalPrice * 100,
-      currency: "RWF",
+      currency: selectedCurrency,
       payment_options: "card,mobilemoney,ussd",
       customer: {
         email,
@@ -65,6 +66,10 @@ const MyOrdersPage = () => {
       onClose: () => {},
       text: "Pay with Flutterwave!",
     };
+  };
+
+  const handleCurrencyChange = (event) => {
+    setSelectedCurrency(event.target.value);
   };
 
   console.log(orders);
@@ -120,41 +125,76 @@ const MyOrdersPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">My Orders</h1>
-      {orders.map((order) => (
-        <div key={order.id} className="bg-white shadow-md rounded-lg mb-8">
-          <div className="p-6">
-            <div className="flex justify-between mb-4">
-              <div>
-                <h2 className="text-xl font-semibold">Order #{order.id}</h2>
-                <p className="text-gray-600">{order.orderDate}</p>
+      <h1 className="text-3xl font-bold mb-8 text-center">My Orders</h1>
+      <div className="mb-8 flex justify-end">
+        <div className="w-64">
+          <label
+            htmlFor="currency"
+            className="block font-semibold mb-1 text-gray-700"
+          >
+            Choose Currency:
+          </label>
+          <select
+            id="currency"
+            value={selectedCurrency}
+            onChange={handleCurrencyChange}
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="RWF">Rwandan Franc (RWF)</option>
+            <option value="USD">US Dollar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+          </select>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {orders.map((order) => (
+          <div
+            key={order.id}
+            className="bg-white rounded-lg shadow-md overflow-hidden"
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Order #{order.id}
+                </h2>
+                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+                  {order.status}
+                </span>
               </div>
+              <p className="text-gray-600 mb-4">
+                <span className="font-semibold">Order Date:</span>{" "}
+                {order.orderDate}
+              </p>
               <div>
-                <h2 className="text-xl font-semibold">
+                {order.tickets.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-between mb-2"
+                  >
+                    <div>
+                      <p className="text-lg font-semibold text-gray-800">
+                        {item.category}
+                      </p>
+                      <p className="text-gray-600">${item.price}</p>
+                    </div>
+                    <span className="text-gray-600">{order.quantity}x</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-gray-800">
                   Total: ${order.totalPrice.toFixed(2)}
                 </h2>
-                <p className="text-gray-600">Status: {order.status}</p>
+                {!order.isPaid && (
+                  <button className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-300">
+                    <FlutterWaveButton {...createFlutterwaveConfig(order)} />
+                  </button>
+                )}
               </div>
             </div>
-            <div>
-              {order.tickets.map((item) => (
-                <div key={item.id} className="flex items-center mb-2">
-                  <div className="flex-grow">
-                    <p className="text-lg font-semibold">{item.category}</p>
-                    <p className="text-gray-600">${item.price}</p>
-                  </div>
-                  <div className="text-gray-600">{order.quantity}x</div>
-                </div>
-              ))}
-            </div>
-            {!order.isPaid && (
-              <button className="btn mt-4">
-                <FlutterWaveButton {...createFlutterwaveConfig(order)} />
-              </button>
-            )}
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
