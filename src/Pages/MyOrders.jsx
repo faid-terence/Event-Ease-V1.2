@@ -42,30 +42,29 @@ const MyOrdersPage = () => {
   console.log(orders);
   const flutterwavePublicKey = import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY;
 
-  const config = {
-    public_key: flutterwavePublicKey,
-    tx_ref: Date.now(),
-    amount: 100,
-    currency: "RWF",
-    payment_options: "card,mobilemoney,ussd",
-    customer: {
-      email,
-      phone_number: "250788634357",
-      name,
-    },
-    customizations: {
-      description: "Your ultimate solution to online ticketing",
-      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
-    },
-  };
-  const fwConfig = {
-    ...config,
-    text: "Pay with Flutterwave!",
-    callback: (response) => {
-      console.log(response);
-      closePaymentModal(); // this will close the modal programmatically
-    },
-    onClose: () => {},
+  const createFlutterwaveConfig = (order) => {
+    return {
+      public_key: flutterwavePublicKey,
+      tx_ref: Date.now(),
+      amount: order.totalPrice * 100,
+      currency: "RWF",
+      payment_options: "card,mobilemoney,ussd",
+      customer: {
+        email,
+        phone_number: "250788634357",
+        name,
+      },
+      customizations: {
+        description: "Your ultimate solution to online ticketing",
+        logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+      },
+      callback: (response) => {
+        console.log(response);
+        closePaymentModal();
+      },
+      onClose: () => {},
+      text: "Pay with Flutterwave!",
+    };
   };
 
   console.log(orders);
@@ -150,7 +149,7 @@ const MyOrdersPage = () => {
             </div>
             {!order.isPaid && (
               <button className="btn mt-4">
-                <FlutterWaveButton {...fwConfig} />
+                <FlutterWaveButton {...createFlutterwaveConfig(order)} />
               </button>
             )}
           </div>
