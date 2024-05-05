@@ -39,17 +39,18 @@ const MyOrdersPage = () => {
   useEffect(() => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
+  console.log(orders);
   const flutterwavePublicKey = import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY;
 
   const config = {
     public_key: flutterwavePublicKey,
     tx_ref: Date.now(),
     amount: 100,
-    currency: "NGN",
+    currency: "RWF",
     payment_options: "card,mobilemoney,ussd",
     customer: {
       email,
-      phone_number: "078*********",
+      phone_number: "250788634357",
       name,
     },
     customizations: {
@@ -66,6 +67,9 @@ const MyOrdersPage = () => {
     },
     onClose: () => {},
   };
+
+  console.log(orders);
+
   if (loading) return <div className="text-center">Loading...</div>;
   if (error) return <div className="text-center">{error}</div>;
   if (!orders.length)
