@@ -141,8 +141,9 @@ const MyOrdersPage = () => {
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <option value="RWF">Rwandan Franc (RWF)</option>
-            <option value="USD">US Dollar (USD)</option>
-            <option value="EUR">Euro (EUR)</option>
+            <option value="UGX">Ugandan Shilling (UGX)</option>
+            <option value="KES">Kenyan Shilling (KES)</option>
+            <option value="TZS">Tanzanian Shilling (TZS)</option>
           </select>
         </div>
       </div>
@@ -186,7 +187,7 @@ const MyOrdersPage = () => {
                   Total: ${order.totalPrice.toFixed(2)}
                 </h2>
                 {!order.isPaid && (
-                  <button className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-300">
+                  <button className="bg-[#339657] text-white px-4 py-2 rounded-md transition-colors duration-300">
                     <FlutterWaveButton {...createFlutterwaveConfig(order)} />
                   </button>
                 )}
