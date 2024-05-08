@@ -8,6 +8,7 @@ import { payOrder } from "../features/Redux/orders/orderSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
+import { sendTicketToEmail } from "../features/Redux/Tickets/ticketSlice";
 
 function getUser() {
   const token = localStorage.getItem("token");
@@ -42,7 +43,7 @@ const MyOrdersPage = () => {
   useEffect(() => {
     dispatch(fetchUserOrders());
   }, [dispatch]);
-  console.log(orders);
+
   const flutterwavePublicKey = import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY;
 
   const createFlutterwaveConfig = (order) => {
@@ -68,6 +69,17 @@ const MyOrdersPage = () => {
           dispatch(updateOrderPaymentStatus(order.id));
           toast.success("Payment successful");
           window.location.reload();
+
+          const ticketDeatils = {
+            ticketId: order.tickets[0].id,
+            email,
+            numberOfTickets: order.quantity,
+          };
+
+          dispatch(sendTicketToEmail(ticketDeatils));
+          console.log(ticketDeatils);
+
+          toast.success("Ticket sent to your email");
         }
       },
       onClose: () => {},
@@ -78,8 +90,6 @@ const MyOrdersPage = () => {
   const handleCurrencyChange = (event) => {
     setSelectedCurrency(event.target.value);
   };
-
-  console.log(orders);
 
   if (loading) return <div className="text-center">Loading...</div>;
   if (error) return <div className="text-center">{error}</div>;
