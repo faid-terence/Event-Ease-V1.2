@@ -67,7 +67,7 @@ export const updateOrderPaymentStatus = createAsyncThunk(
     const response = await fetch(
       `http://localhost:3000/order/${orderId}/payment/status`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
         },
