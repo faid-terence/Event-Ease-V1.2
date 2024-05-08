@@ -66,6 +66,7 @@ const MyOrdersPage = () => {
         closePaymentModal();
         if (response.status === "successful") {
           dispatch(updateOrderPaymentStatus(order.id));
+          window.location.reload();
         }
       },
       onClose: () => {},
@@ -169,7 +170,7 @@ const MyOrdersPage = () => {
               </div>
               <p className="text-gray-600 mb-4">
                 <span className="font-semibold">Order Date:</span>{" "}
-                {order.orderDate}
+                {order.orderDate.split("T")[0]}
               </p>
               <div>
                 {order.tickets.map((item) => (
