@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserOrders } from "../features/Redux/orders/orderSlice";
+import {
+  fetchUserOrders,
+  updateOrderPaymentStatus,
+} from "../features/Redux/orders/orderSlice";
 import { payOrder } from "../features/Redux/orders/orderSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import visaCardImage from "../assets/images/cards.jpg";
 import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 
 function getUser() {
@@ -62,9 +64,12 @@ const MyOrdersPage = () => {
       callback: (response) => {
         console.log(response);
         closePaymentModal();
+        if (response.status === "successful") {
+          dispatch(updateOrderPaymentStatus(order.id));
+        }
       },
       onClose: () => {},
-      text: "Pay with Flutterwave!",
+      text: "Pay!",
     };
   };
 
@@ -138,7 +143,7 @@ const MyOrdersPage = () => {
             id="currency"
             value={selectedCurrency}
             onChange={handleCurrencyChange}
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#339657]"
           >
             <option value="RWF">Rwandan Franc (RWF)</option>
             <option value="UGX">Ugandan Shilling (UGX)</option>
