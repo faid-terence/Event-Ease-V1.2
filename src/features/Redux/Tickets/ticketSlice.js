@@ -44,6 +44,41 @@ export const fetchTickets = createAsyncThunk(
   }
 );
 
+export const sendTicketToEmail = createAsyncThunk(
+  "ticket/sendTicketToEmail",
+  async (ticketDetails, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Token not found");
+      }
+
+      const response = await fetch(
+        `http://localhost:3000/tickets/send-ticket`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(ticketDetails),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "An error occurred");
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      toast.error(error.message);
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const ticketSlice = createSlice({
   name: "ticket",
   initialState: {
