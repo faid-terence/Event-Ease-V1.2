@@ -66,6 +66,7 @@ const MyOrdersPage = () => {
         closePaymentModal();
         if (response.status === "successful") {
           dispatch(updateOrderPaymentStatus(order.id));
+          toast.success("Payment successful");
           window.location.reload();
         }
       },
