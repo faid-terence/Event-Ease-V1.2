@@ -68,7 +68,9 @@ const MyOrdersPage = () => {
         if (response.status === "successful") {
           dispatch(updateOrderPaymentStatus(order.id));
           toast.success("Payment successful");
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
 
           const ticketDeatils = {
             ticketId: order.tickets[0].id,
