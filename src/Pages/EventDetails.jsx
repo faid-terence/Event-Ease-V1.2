@@ -54,7 +54,7 @@ export const EventDetails = () => {
                       <strong>Venue:</strong> {event.Event_Venue}
                     </p>
                     <p className="text-[14px] leading-5 md:text-[15px] lg:max-w-[390px] mt-2">
-                      <strong>Date:</strong> {event.Event_Date}
+                      <strong>Date:</strong> {event.Event_Date.split("T")[0]}
                     </p>
                   </div>
                 </>
