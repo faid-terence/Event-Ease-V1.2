@@ -87,7 +87,7 @@ export const Panel = () => {
                   {ticket.category}
                 </p>
                 <p className="text-[15px] leading-6 text-textColor font-semibold">
-                  ${ticket.price}
+                  {ticket.price} RWF
                 </p>
               </li>
             ))}

@@ -9,11 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 import { sendTicketToEmail } from "../features/Redux/Tickets/ticketSlice";
+import currency from "currency.js";
 
 function getUser() {
   const token = localStorage.getItem("token");
-  const defaultImage =
-    "http://res.cloudinary.com/faid-terence/image/upload/v1711803562/aiswa8jcv6rzztbnnly3.jpg";
   if (token) {
     try {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
@@ -46,11 +45,28 @@ const MyOrdersPage = () => {
 
   const flutterwavePublicKey = import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY;
 
+  const currencyRates = {
+    RWF: 1,
+    UGX: 3.81,
+    KES: 0.094,
+    TZS: 2.29,
+  };
+
+  const convertCurrency = (amount, fromCurrency, toCurrency) => {
+    const rate = currencyRates[toCurrency] / currencyRates[fromCurrency];
+    return currency(amount).multiply(rate).value;
+  };
+
   const createFlutterwaveConfig = (order) => {
+    const convertedAmount = convertCurrency(
+      order.totalPrice,
+      "RWF",
+      selectedCurrency
+    );
     return {
       public_key: flutterwavePublicKey,
       tx_ref: Date.now(),
-      amount: order.totalPrice * 100,
+      amount: convertedAmount,
       currency: selectedCurrency,
       payment_options: "card,mobilemoney,ussd",
       customer: {
@@ -72,14 +88,14 @@ const MyOrdersPage = () => {
             window.location.reload();
           }, 3000);
 
-          const ticketDeatils = {
+          const ticketDetails = {
             ticketId: order.tickets[0].id,
             email,
             numberOfTickets: order.quantity,
           };
 
-          dispatch(sendTicketToEmail(ticketDeatils));
-          console.log(ticketDeatils);
+          dispatch(sendTicketToEmail(ticketDetails));
+          console.log(ticketDetails);
 
           toast.success("Ticket sent to your email");
         }
@@ -109,38 +125,6 @@ const MyOrdersPage = () => {
         </div>
       </div>
     );
-
-  const handlePaymentWithStripe = async (orderId) => {
-    try {
-      const result = await dispatch(payOrder(orderId));
-      const paymentUrl = result.payload.paymentUrl;
-      window.location.href = paymentUrl;
-    } catch (error) {
-      toast.error("Error occurred while paying for order #" + orderId);
-    }
-  };
-
-  const handleChoosePaymentMethod = (order) => {
-    setSelectedOrder(order);
-  };
-
-  const handlePaymentConfirmation = (paymentMethod) => {
-    if (selectedOrder) {
-      if (paymentMethod === "PayPal") {
-        handlePaymentWithStripe(selectedOrder.id);
-      }
-    }
-  };
-  const handlePay = async (orderId) => {
-    try {
-      const result = await dispatch(payOrder(orderId));
-      const paymentUrl = result.payload.paymentUrl;
-
-      window.location.href = paymentUrl;
-    } catch (error) {
-      toast.error("Error occurred while paying for order #" + orderId);
-    }
-  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -195,7 +179,7 @@ const MyOrdersPage = () => {
                       <p className="text-lg font-semibold text-gray-800">
                         {item.category}
                       </p>
-                      <p className="text-gray-600">${item.price}</p>
+                      <p className="text-gray-600">{item.price} RWF</p>
                     </div>
                     <span className="text-gray-600">{order.quantity}x</span>
                   </div>
@@ -203,12 +187,20 @@ const MyOrdersPage = () => {
               </div>
               <div className="mt-6 flex justify-between items-center">
                 <h2 className="text-xl font-semibold text-gray-800">
-                  Total: ${order.totalPrice.toFixed(2)}
+                  Total:{" "}
+                  {convertCurrency(
+                    order.totalPrice,
+                    "RWF",
+                    selectedCurrency
+                  ).toFixed(2)}{" "}
+                  {selectedCurrency}
                 </h2>
                 {!order.isPaid && (
-                  <button className="bg-[#339657] text-white px-4 py-2 rounded-md transition-colors duration-300">
-                    <FlutterWaveButton {...createFlutterwaveConfig(order)} />
-                  </button>
+                  <div>
+                    <button className="bg-[#339657] text-white px-4 py-2 rounded-md transition-colors duration-300">
+                      <FlutterWaveButton {...createFlutterwaveConfig(order)} />
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
