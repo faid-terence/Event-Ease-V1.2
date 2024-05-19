@@ -10,7 +10,7 @@ export const assignTicketToEvent = createAsyncThunk(
       }
 
       const response = await fetch(
-        `http://localhost:3000/tickets/${ticketDetails.id}`,
+        `http://localhost:3000/tickets/${ticketDetails.eventId}`,
         {
           method: "POST",
           headers: {
