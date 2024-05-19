@@ -53,7 +53,7 @@ const EventTable = ({ events, openModal }) => {
               className="border-b border-gray-300 hover:bg-gray-100 transition-all duration-200"
             >
               <td className="py-3 px-4">{event.Event_Name}</td>
-              <td className="py-3 px-4">{event.Event_Date}</td>
+              <td className="py-3 px-4">{event.Event_Date.split("T")[0]}</td>
               <td className="py-3 px-4">{event.Event_Location}</td>
               <td className="py-3 px-4">
                 <button className="mr-2">
