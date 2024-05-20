@@ -38,7 +38,11 @@ export const Panel = () => {
       return;
     }
 
-    // Check if user is logged in
+    if (quantity > 10) {
+      toast.error("You can only purchase a maximum of 10 tickets at a time.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("Please login to purchase tickets!");
@@ -51,6 +55,13 @@ export const Panel = () => {
 
     if (!selectedTicket) {
       toast.error("Selected category is invalid.");
+      return;
+    }
+
+    if (quantity > selectedTicket.availableQuantity) {
+      toast.error(
+        `Only ${selectedTicket.availableQuantity} tickets are available for this category.`
+      );
       return;
     }
 

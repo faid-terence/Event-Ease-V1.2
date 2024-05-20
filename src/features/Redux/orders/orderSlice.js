@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export const fetchUserOrders = createAsyncThunk(
   "order/fetchUserOrders",
@@ -32,8 +33,8 @@ export const createOrder = createAsyncThunk(
         body: JSON.stringify(order),
       }
     );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+    if (response.status === 400) {
+      toast.error("Insufficient quantity of tickets available");
     }
     const data = await response.json();
     return data;
