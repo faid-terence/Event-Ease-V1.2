@@ -48,9 +48,7 @@ const CreateEventPage = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const token = localStorage.getItem("token");
-
     if (!token) {
       toast.error("Please log in.");
       return;
@@ -77,9 +75,11 @@ const CreateEventPage = () => {
         toast.error("Event date cannot be in the past.");
         return;
       }
-      const result = await dispatch(createEvent(eventData));
 
-      if (result.payload) {
+      const result = await dispatch(createEvent(eventData));
+      if (result.error) {
+        console.error("Error creating event:", result.error.message);
+      } else if (result.payload) {
         const message = "Event created successfully!";
         toast.success(message);
         setTimeout(() => {
