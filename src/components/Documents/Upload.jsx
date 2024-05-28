@@ -54,10 +54,9 @@ const DocumentUploadForm = () => {
               <option value="" disabled>
                 Select document type
               </option>
-              <option value="report">Report</option>
-              <option value="invoice">Invoice</option>
-              <option value="contract">Contract</option>
-              <option value="other">Other</option>
+              <option value="report">National ID</option>
+              <option value="invoice">Passport</option>
+              <option value="contract">Other</option>
             </select>
           </div>
           <div>
