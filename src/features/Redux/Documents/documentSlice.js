@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice , createAsyncThunk} from "@reduxjs/toolkit";
 export const uploadDocument = createAsyncThunk(
   "documentUpload/uploadDocument",
   async (document, { rejectWithValue }) => {
