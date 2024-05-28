@@ -18,5 +18,6 @@ export const store = configureStore({
     messages: messageRuducer,
     payment: paymentReducer,
     users: usersReducer,
+    document: documentUploadSlice.reducer,
   },
 });
