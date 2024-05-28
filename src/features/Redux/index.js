@@ -8,6 +8,7 @@ import orderReducer from "./orders/orderSlice";
 import messageRuducer from "./messages/message-slice";
 import paymentReducer from "./Payments/payment-slice";
 import usersReducer from "./admin/admin-slice";
+import documentUploadReducer from "./Documents/documentSlice";
 export const store = configureStore({
   reducer: {
     user: userReducer,
@@ -18,6 +19,6 @@ export const store = configureStore({
     messages: messageRuducer,
     payment: paymentReducer,
     users: usersReducer,
-    document: documentUploadSlice.reducer,
+    document: documentUploadReducer,
   },
 });
