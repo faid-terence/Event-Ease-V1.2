@@ -1,7 +1,10 @@
-import { createSlice , createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+
+// Thunk for uploading a document
 export const uploadDocument = createAsyncThunk(
   "documentUpload/uploadDocument",
-  async (document, { rejectWithValue }) => {
+  async (documentDetails, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -14,14 +17,17 @@ export const uploadDocument = createAsyncThunk(
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", // Ensure the content type is set
           },
-          body: document,
+          body: JSON.stringify(documentDetails), // Stringify the document details
         }
       );
 
+      console.log("Response", response);
+
       if (!response.ok) {
         const errorData = await response.json();
-        toast.error(errorData.message);
+        return rejectWithValue(errorData.message); // Use rejectWithValue for better error handling
       }
 
       const data = await response.json();
@@ -31,6 +37,8 @@ export const uploadDocument = createAsyncThunk(
     }
   }
 );
+
+// Slice for handling document upload state
 const documentUploadSlice = createSlice({
   name: "documentUpload",
   initialState: {
@@ -38,7 +46,6 @@ const documentUploadSlice = createSlice({
     hasErrors: false,
     document: [],
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(uploadDocument.pending, (state) => {
@@ -52,9 +59,9 @@ const documentUploadSlice = createSlice({
       .addCase(uploadDocument.rejected, (state, { payload }) => {
         state.loading = false;
         state.hasErrors = true;
+        toast.error(payload || "Document upload failed"); // Show toast for errors
       });
   },
 });
-
 
 export default documentUploadSlice.reducer;
