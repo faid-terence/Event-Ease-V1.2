@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 export const assignTicketToEvent = createAsyncThunk(
   "ticket/assignTicketToEvent",
   async (ticketDetails, { rejectWithValue }) => {
@@ -10,7 +14,7 @@ export const assignTicketToEvent = createAsyncThunk(
       }
 
       const response = await fetch(
-        `http://localhost:3000/tickets/${ticketDetails.eventId}`,
+        `${API_URL}/tickets/${ticketDetails.eventId}`,
         {
           method: "POST",
           headers: {
@@ -38,7 +42,7 @@ export const assignTicketToEvent = createAsyncThunk(
 export const fetchTickets = createAsyncThunk(
   "ticket/fetchTickets",
   async () => {
-    const response = await fetch("http://localhost:3000/tickets");
+    const response = await fetch(`${API_URL}/tickets`);
     const data = await response.json();
     return data;
   }
@@ -54,7 +58,7 @@ export const sendTicketToEmail = createAsyncThunk(
       }
 
       const response = await fetch(
-        `http://localhost:3000/tickets/send-ticket`,
+        `${API_URL}/tickets/send-ticket`,
         {
           method: "PUT",
           headers: {
