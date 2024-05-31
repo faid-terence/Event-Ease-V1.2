@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (userCredentials) => {
-    const response = await fetch("http://localhost:3000/auth/register", {
+    const response = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +29,7 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (userCredentials) => {
-    const response = await fetch("http://localhost:3000/auth/login", {
+    const response = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +53,7 @@ export const loginUser = createAsyncThunk(
 export const resetUserPassword = createAsyncThunk(
   "user/resetUserPassword",
   async (userCredentials) => {
-    const response = await fetch("http://localhost:3000/auth/reset-password", {
+    const response = await fetch(`${API_URL}/auth/reset-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +78,7 @@ export const setNewPassword = createAsyncThunk(
   async (userCredentials) => {
     const resetToken = window.location.pathname.split("/")[3];
     const response = await fetch(
-      `http://localhost:3000/auth/reset-password/${resetToken}`,
+      `${API_URL}/auth/reset-password/${resetToken}`,
       {
         method: "POST",
         headers: {
@@ -101,7 +103,7 @@ export const setNewPassword = createAsyncThunk(
 
 export const verifyEmail = createAsyncThunk("user/verifyEmail", async () => {
   const token = window.location.pathname.split("/")[3];
-  const response = await fetch(`http://localhost:3000/auth/verify/${token}`, {
+  const response = await fetch(`${API_URL}/auth/verify/${token}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -122,7 +124,7 @@ export const verifyEmail = createAsyncThunk("user/verifyEmail", async () => {
 export const userSubscription = createAsyncThunk(
   "user/userSubscription",
   async (userCredentials) => {
-    const response = await fetch("http://localhost:3000/subscribe", {
+    const response = await fetch(`${API_URL}/subscribe`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
