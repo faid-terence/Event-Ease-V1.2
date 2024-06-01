@@ -1,4 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchOrganizerEvent = createAsyncThunk(
   "organizer/fetchOrganizerEvent",
   async (id, { rejectWithValue }) => {
@@ -6,7 +9,7 @@ export const fetchOrganizerEvent = createAsyncThunk(
     if (!token) {
       return rejectWithValue("Token not found");
     }
-    const response = await fetch(`http://localhost:3000/events/organizer`, {
+    const response = await fetch(`${API_URL}/events/organizer`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -27,7 +30,7 @@ export const organizerFetchTickets = createAsyncThunk(
     if (!token) {
       return rejectWithValue("Token not found");
     }
-    const response = await fetch(`http://localhost:3000/tickets/organizer`, {
+    const response = await fetch(`${API_URL}/tickets/organizer`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -48,7 +51,7 @@ export const organizerUpdateEvent = createAsyncThunk(
     if (!token) {
       return rejectWithValue("Token not found");
     }
-    const response = await fetch(`http://localhost:3000/events/${event.id}`, {
+    const response = await fetch(`${API_URL}/events/${event.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +76,7 @@ export const organizerDeleteEvent = createAsyncThunk(
     if (!token) {
       return rejectWithValue("Token not found");
     }
-    const response = await fetch(`http://localhost:3000/events/${id}`, {
+    const response = await fetch(`${API_URL}/events/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
