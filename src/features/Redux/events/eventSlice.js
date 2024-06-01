@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchEvents = createAsyncThunk("event/fetchEvents", async () => {
-  const response = await fetch("http://localhost:3000/events");
+  const response = await fetch(`${API_URL}/events`);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -16,7 +19,7 @@ export const adminFetchEvents = createAsyncThunk(
     if (!token) {
       toast.error("You are not authorized to view this page");
     }
-    const response = await fetch("http://localhost:3000/events/admin-events", {
+    const response = await fetch(`${API_URL}/events/admin-events`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -38,7 +41,7 @@ export const createEvent = createAsyncThunk(
         throw new Error("Token not found");
       }
 
-      const response = await fetch("http://localhost:3000/events", {
+      const response = await fetch(`${API_URL}/events`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +66,7 @@ export const createEvent = createAsyncThunk(
 export const fetchEventById = createAsyncThunk(
   "event/fetchEventById",
   async (id, { rejectWithValue }) => {
-    const response = await fetch(`http://localhost:3000/events/${id}`);
+    const response = await fetch(`${API_URL}/events/${id}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -75,7 +78,7 @@ export const fetchEventById = createAsyncThunk(
 export const fetchEventWithTickets = createAsyncThunk(
   "event/fetchEventWithTickets",
   async (id, { rejectWithValue }) => {
-    const response = await fetch(`http://localhost:3000/events/${id}/tickets`);
+    const response = await fetch(`${API_URL}/events/${id}/tickets`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
