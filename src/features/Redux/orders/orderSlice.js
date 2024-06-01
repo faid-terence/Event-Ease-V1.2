@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchUserOrders = createAsyncThunk(
   "order/fetchUserOrders",
   async (userId, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:3000/order`, {
+    const response = await fetch(`${API_URL}/order`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -22,17 +24,14 @@ export const createOrder = createAsyncThunk(
   "order/createOrder",
   async (order, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(
-      `http://localhost:3000/order/${order.ticket}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(order),
-      }
-    );
+    const response = await fetch(`${API_URL}/order/${order.ticket}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(order),
+    });
     if (response.status === 400) {
       toast.error("Insufficient quantity of tickets available");
     }
@@ -45,7 +44,7 @@ export const payOrder = createAsyncThunk(
   "order/payOrder",
   async (orderId, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:3000/order/${orderId}/pay`, {
+    const response = await fetch(`${API_URL}/order/${orderId}/pay`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -65,15 +64,12 @@ export const updateOrderPaymentStatus = createAsyncThunk(
   "order/updateOrderPaymentStatus",
   async (orderId, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(
-      `http://localhost:3000/order/${orderId}/payment/status`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${API_URL}/order/${orderId}/payment/status`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
