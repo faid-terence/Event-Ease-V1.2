@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // Thunk for uploading a document
 export const uploadDocument = createAsyncThunk(
   "documentUpload/uploadDocument",
@@ -11,17 +13,14 @@ export const uploadDocument = createAsyncThunk(
         throw new Error("Token not found");
       }
 
-      const response = await fetch(
-        "http://localhost:3000/user/upload-verification-doc",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure the content type is set
-          },
-          body: JSON.stringify(documentDetails), // Stringify the document details
-        }
-      );
+      const response = await fetch(`${API_URL}/user/upload-verification-doc`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json", // Ensure the content type is set
+        },
+        body: JSON.stringify(documentDetails), // Stringify the document details
+      });
 
       console.log("Response", response);
 
@@ -47,17 +46,14 @@ export const adminApproveDocument = createAsyncThunk(
         throw new Error("Token not found");
       }
 
-      const response = await fetch(
-        "http://localhost:3000/user/approve-verification-doc",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(documentDetails),
-        }
-      );
+      const response = await fetch(`${API_URL}/user/approve-verification-doc`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(documentDetails),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();

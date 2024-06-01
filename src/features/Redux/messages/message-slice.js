@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchMessages = createAsyncThunk(
   "message/fetchMessages",
   async (_, { rejectWithValue }) => {
@@ -9,7 +11,7 @@ export const fetchMessages = createAsyncThunk(
       if (!token) {
         toast.error("You are not authenticated");
       }
-      const response = await fetch("http://localhost:3000/messages");
+      const response = await fetch(`${API_URL}/messages`);
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(errorData.message || "Failed to fetch messages");
@@ -26,7 +28,7 @@ export const sendMessage = createAsyncThunk(
   "message/sendMessage",
   async (message, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:3000/messages", {
+      const response = await fetch(`${API_URL}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

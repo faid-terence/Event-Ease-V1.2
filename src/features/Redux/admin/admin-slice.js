@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
+const API = import.meta.env.VITE_API_URL;
 
 export const adminFetchAllUsers = createAsyncThunk(
   "user/adminFetchAllUsers",
@@ -9,7 +10,7 @@ export const adminFetchAllUsers = createAsyncThunk(
     if (!token) {
       toast.error("You are not authorized to view this page");
     }
-    const response = await fetch("http://localhost:3000/user", {
+    const response = await fetch(`${API}/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
