@@ -9,22 +9,23 @@ import { Link } from "react-router-dom";
 
 const socialLinks = [
   {
-    path: "htttps://facebook.com",
-    icon: <AiFillYoutube className="group-hover:text-white w-4 h-5" />,
+    path: "https://youtube.com",
+    icon: <AiFillYoutube className="group-hover:text-white w-6 h-6" />,
   },
   {
-    path: "htttps://facebook.com",
-    icon: <AiFillGithub className="group-hover:text-white w-4 h-5" />,
+    path: "https://github.com",
+    icon: <AiFillGithub className="group-hover:text-white w-6 h-6" />,
   },
   {
-    path: "htttps://facebook.com",
-    icon: <AiOutlineInstagram className="group-hover:text-white w-4 h-5" />,
+    path: "https://instagram.com",
+    icon: <AiOutlineInstagram className="group-hover:text-white w-6 h-6" />,
   },
   {
-    path: "htttps://facebook.com",
-    icon: <RiLinkedinFill className="group-hover:text-white w-4 h-5" />,
+    path: "https://linkedin.com",
+    icon: <RiLinkedinFill className="group-hover:text-white w-6 h-6" />,
   },
 ];
+
 const quickLinks01 = [
   {
     path: "/home",
@@ -43,44 +44,47 @@ const quickLinks01 = [
     display: "Contact Us",
   },
 ];
+
 const quickLinks02 = [
   {
-    path: "/home",
-    display: "Home",
+    path: "/faq",
+    display: "FAQ",
   },
   {
-    path: "/events",
-    display: "Find Events",
+    path: "/terms",
+    display: "Terms of Service",
   },
   {
-    path: "/tickets",
-    display: "Buy and Sell Tickets",
+    path: "/privacy",
+    display: "Privacy Policy",
   },
   {
-    path: "/contact",
-    display: "Contact Us",
+    path: "/refund",
+    display: "Refund Policy",
   },
 ];
 
 export const Footer = () => {
   const year = new Date().getFullYear();
+
   return (
-    <footer className="pb-16 pt-10">
-      <div className="container">
-        <div className="flex justify-between flex-col md:flex-row flex-wrap gap-[30px]">
+    <footer className="bg-primaryColor text-white py-12">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            {/* <img src={logo} alt="" /> */}
-            <h2 className="heading">TickNet</h2>
-            <p className="text-[16px] leading-7 font-[400] text-textColor mt-4">
-              Copyright &copy; {year} developed by Terence Faid JABO all right
+            <h2 className="text-3xl font-bold mb-4">TickNet</h2>
+            <p className="text-white mb-4">
+              Copyright &copy; {year} developed by Terence Faid JABO. All rights
               reserved.
             </p>
-            <div className="flex items-center gap-3 mt-4">
+            <div className="flex space-x-4">
               {socialLinks.map((link, index) => (
                 <Link
-                  to={link.path}
                   key={index}
-                  className="w-9 h-9 border border-solid border-[#181A1E] rounded-full flex items-center justify-center group hover:bg-primaryColor hover:border-none"
+                  to={link.path}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-gray-300 transition-colors duration-300"
                 >
                   {link.icon}
                 </Link>
@@ -88,15 +92,13 @@ export const Footer = () => {
             </div>
           </div>
           <div>
-            <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
-              Quick Links
-            </h2>
-            <ul>
+            <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
               {quickLinks01.map((item, index) => (
                 <li key={index}>
                   <Link
                     to={item.path}
-                    className="text-[16px] leading-7 font-400 text-textColor"
+                    className="text-white hover:text-gray-300 transition-colors duration-300"
                   >
                     {item.display}
                   </Link>
@@ -105,15 +107,28 @@ export const Footer = () => {
             </ul>
           </div>
           <div>
-            <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
-              I want to:
-            </h2>
-            <ul>
+            <h3 className="text-xl font-semibold mb-4">I want to:</h3>
+            <ul className="space-y-2">
+              {quickLinks01.map((item, index) => (
+                <li key={index}>
+                  <Link
+                    to={item.path}
+                    className="text-white hover:text-gray-300 transition-colors duration-300"
+                  >
+                    {item.display}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Support</h3>
+            <ul className="space-y-2">
               {quickLinks02.map((item, index) => (
                 <li key={index}>
                   <Link
                     to={item.path}
-                    className="text-[16px] leading-7 font-400 text-textColor"
+                    className="text-white hover:text-gray-300 transition-colors duration-300"
                   >
                     {item.display}
                   </Link>
@@ -121,23 +136,10 @@ export const Footer = () => {
               ))}
             </ul>
           </div>
-          <div>
-            <h2 className="text-[20px] leading-[30px] font-[700] mb-6 text-headingColor">
-              Support
-            </h2>
-            <ul>
-              {quickLinks01.map((item, index) => (
-                <li key={index}>
-                  <Link
-                    to={item.path}
-                    className="text-[16px] leading-7 font-400 text-textColor"
-                  >
-                    {item.display}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        </div>
+        <hr className="my-8 border-white" />
+        <div className="text-center text-white text-sm">
+          Built with ❤️ by Terence Faid JABO
         </div>
       </div>
     </footer>
