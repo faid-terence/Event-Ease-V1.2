@@ -4,12 +4,7 @@ import Slider from "react-slick";
 import { AiFillAndroid, AiFillApple } from "react-icons/ai";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import image4 from "../../assets/images/dance3.jpg";
-import image2 from "../../assets/images/dance5.jpg";
-import image3 from "../../assets/images/dance6.jpg";
 import image1 from "../../assets/images/basket3.jpg";
-import image5 from "../../assets/images/dance20.jpg";
-import image6 from "../../assets/images/dance30.jpg";
 import image7 from "../../assets/images/dance26.jpg";
 import image8 from "../../assets/images/dance25.jpg";
 
@@ -82,7 +77,7 @@ export const HeroSlider = () => {
                 <h1 className="text-white text-4xl font-bold">{slide.title}</h1>
                 <p className="text-white text-lg">{slide.description}</p>
                 <div className="mt-4">
-                  <Link to="/events">
+                  <Link to="/create-event">
                     <button className="bg-blue-500 text-white px-4 py-2 mr-4">
                       Sell Tickets
                     </button>
