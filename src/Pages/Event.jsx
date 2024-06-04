@@ -118,7 +118,7 @@ export const Event = () => {
               location={event.Event_Location}
               price={event.Event_Price}
               venue={event.Event_Venue}
-              dateTime={event.Event_Date}
+              dateTime={event.Event_Date.split("T")[0]}
               description={event.Event_Description}
               linkPath={`/events/${event.id}`}
             />
