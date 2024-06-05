@@ -12,6 +12,7 @@ export const CreateTicketModal = ({ isOpen, onClose, eventId }) => {
     availableQuantity: "",
     companyLogo: "HackerBay",
   });
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -21,6 +22,7 @@ export const CreateTicketModal = ({ isOpen, onClose, eventId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await dispatch(assignTicketToEvent(ticketDetails));
       if (result.payload) {
@@ -83,7 +85,7 @@ export const CreateTicketModal = ({ isOpen, onClose, eventId }) => {
           </div>
           <div className="flex justify-end">
             <button type="submit" className="btn">
-              Create Ticket
+             {loading ? "Creating..." : "Create"}
             </button>
           </div>
         </form>
