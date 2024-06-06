@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { FaBell } from "react-icons/fa";
-import defaultUserImage from "../../assets/terence 1.png";
+import React, { useState, useEffect, useRef } from "react";
+import { FaBell, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 function getUser() {
@@ -24,8 +23,21 @@ const DashboardHeader = () => {
   const [user, setUser] = useState(getUser());
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useNavigate();
-  const defaultImage =
-    "http://res.cloudinary.com/faid-terence/image/upload/v1711803562/aiswa8jcv6rzztbnnly3.jpg";
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowLogout(false);
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -38,28 +50,28 @@ const DashboardHeader = () => {
     <div className="absolute top-10 right-10 p-2">
       <header className="flex items-center justify-between">
         <div className="flex items-center mr-8">
-          <FaBell className="text-xl cursor-pointer" color="black" />
+          <FaBell className="text-xl cursor-pointer text-gray-600 hover:text-gray-800 transition-colors duration-300" />
         </div>
 
         {user ? (
           <div
-            className="flex items-center cursor-pointer"
+            className="relative dropdown"
+            ref={dropdownRef}
             onMouseEnter={() => setShowLogout(true)}
             onMouseLeave={() => setShowLogout(false)}
           >
-            <img
-              src={defaultImage}
-              alt="User Profile"
-              className="w-8 h-8 rounded-full mr-2"
-              onClick={handleLogout}
-            />
-            {showLogout && user && (
-              <span
-                className="text-blue-500 cursor-pointer"
-                onClick={handleLogout}
-              >
-                Logout
-              </span>
+            <div className="flex items-center cursor-pointer">
+              <FaUserCircle className="text-2xl text-gray-600 hover:text-gray-800 transition-colors duration-300" />
+            </div>
+            {showLogout && (
+              <div className="absolute right-0 mt-2 py-2 bg-white shadow-lg rounded-md transition-all duration-300">
+                <button
+                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-colors duration-300 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </div>
             )}
           </div>
         ) : null}

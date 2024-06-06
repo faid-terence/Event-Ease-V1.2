@@ -17,12 +17,6 @@ const Aside = () => {
               Dashboard
             </Link>
           </li>
-          {/* <li className="mt-[40px]">
-            <Link to="/payments" className="block py-2 px-4">
-              <FaCreditCard className="mr-2" />
-              My Payments
-            </Link>
-          </li> */}
           <li className="mt-[40px]">
             <Link to="/my-events" className="block py-2 px-4">
               <FaTicketAlt className="mr-2" />
