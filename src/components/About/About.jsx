@@ -26,7 +26,7 @@ export const About = () => {
                 user-friendly payment process. Prioritizing your convenience and
                 safety, we offer diverse payment options, including Mobile.
               </p>
-              <Link to="/">
+              <Link to="/orders">
                 <button className="btn-primary px-8 py-3 bg-primaryColor text-white font-semibold rounded-lg shadow-md hover:bg-primaryColor focus:outline-none focus:ring-2 focus:ring-opacity-75 transition duration-300 ease-in-out">
                   Try it out
                 </button>
@@ -47,7 +47,7 @@ export const About = () => {
                 Our 24/7 customer support is always there to help you with any
                 queries or issues. You can count on us at any time.
               </p>
-              <Link to="/">
+              <Link to="/contact">
                 <button className="btn-primary px-8 py-3 bg-primaryColor text-white font-semibold rounded-lg shadow-md hover:bg-primaryColor focus:outline-none focus:ring-2 focus:ring-opacity-75 transition duration-300 ease-in-out">
                   Contact Us
                 </button>
@@ -86,7 +86,7 @@ export const About = () => {
                 before, where every event becomes an opportunity to create
                 lasting memories.
               </p>
-              <Link to="/">
+              <Link to="/events">
                 <button className="btn-primary px-8 py-3 bg-primaryColor text-white font-semibold rounded-lg shadow-md hover:bg-primaryColor focus:outline-none focus:ring-2 focus:ring-opacity-75 transition duration-300 ease-in-out">
                   Try it out
                 </button>
