@@ -23,6 +23,7 @@ import { UsersDashboard } from "../Pages/UsersDashboard";
 import { AdminAllEvents } from "../Pages/AdminAllEvents";
 import ProtectAdminRoutes from "./ProtectAdminRoutes";
 import { SuccessfulPayment } from "../Pages/SuccessfulPayment";
+import ApproveUserDocs from "../Pages/ApproveDocs";
 
 export const Router = () => {
   return (
@@ -133,6 +134,7 @@ export const Router = () => {
         }
       />
       <Route path="/payment-successful" element={<SuccessfulPayment />} />
+      <Route path="/review-docs" element={<ApproveUserDocs />} />
     </Routes>
   );
 };
