@@ -137,10 +137,7 @@ export const Footer = () => {
             </ul>
           </div>
         </div>
-        <hr className="my-8 border-white" />
-        <div className="text-center text-white text-sm">
-          Built with ❤️ by Terence Faid JABO
-        </div>
+       
       </div>
     </footer>
   );
