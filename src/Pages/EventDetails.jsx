@@ -70,19 +70,9 @@ export const EventDetails = () => {
               >
                 About
               </button>
-              <button
-                onClick={() => setTab("feedback")}
-                className={`${
-                  tab === "feedback" &&
-                  "border-b border-solid border-primaryColor"
-                } py-2 px-5 mr-5 text-[16px] leading-7 text-headingColor font-semibold`}
-              >
-                Feedbacks
-              </button>
             </div>
             <div className="mt-[50px]">
-              {tab === "about" && <EventAbout />}
-              {tab === "feedback" && <Feedback />}
+              <EventAbout />
             </div>
           </div>
           <div>
