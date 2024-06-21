@@ -24,12 +24,6 @@ const Aside = () => {
             </Link>
           </li>
           <li className="mt-[40px]">
-            <Link to="/profile" className="block py-2 px-4">
-              <FaUser className="mr-2" />
-              My Profile
-            </Link>
-          </li>
-          <li className="mt-[40px]">
             <Link to="/dashboard-tickets" className="block py-2 px-4">
               <FaUser className="mr-2" />
               My Tickets
